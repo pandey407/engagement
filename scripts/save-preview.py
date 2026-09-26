@@ -1,9 +1,9 @@
-# Receives the canvas PNG from http://localhost:5173/preview/ and writes public/thumbnail.png.
+# Receives the canvas JPEG from http://localhost:5173/preview/ and writes public/thumbnail.jpg.
 # Usage: python3 scripts/save-preview.py   (then open the preview page; stops after one save)
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / 'public' / 'thumbnail.png'
+OUT = Path(__file__).resolve().parent.parent / 'public' / 'thumbnail.jpg'
 
 class Handler(BaseHTTPRequestHandler):
     def _cors(self):

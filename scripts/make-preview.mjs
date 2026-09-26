@@ -1,4 +1,4 @@
-// Makes the WhatsApp / Messenger link-preview image (public/thumbnail.png, 1200x630) from src/content.ts,
+// Makes the WhatsApp / Messenger link-preview image (public/thumbnail.jpg, 1200x630 (JPEG: WhatsApp skips large images)) from src/content.ts,
 // drawn on a canvas with our art and fonts (the browser shapes the Devanagari correctly).
 //   1. node scripts/make-preview.mjs           -> writes preview/index.html (dev-only page, git-ignored)
 //   2. python3 scripts/save-preview.py &      -> tiny receiver on :8765 that writes public/thumbnail.png
@@ -68,9 +68,9 @@ say(T.date, 1005, 300, '600 27px ' + BODY, '#77142a')
 say(T.dateEn, 1005, 330, '500 14px ' + BODY, '#a87a3a', 2)
 
 // Send the exact pixels to scripts/save-preview.py.
-const blob = await new Promise((r) => cv.toBlob(r, 'image/png'))
+const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.88))
 const res = await fetch('http://localhost:8765/', { method: 'POST', body: blob }).catch(() => null)
-document.getElementById('status').textContent = res?.ok ? 'saved public/thumbnail.png' : 'drawn (receiver not running: start scripts/save-preview.py)'
+document.getElementById('status').textContent = res?.ok ? 'saved public/thumbnail.jpg' : 'drawn (receiver not running: start scripts/save-preview.py)'
 </script></body></html>`
 
 mkdirSync(join(root, 'preview'), { recursive: true })

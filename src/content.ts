@@ -22,7 +22,7 @@ export const invite = {
   partnerOne: { np: 'आरुषा', en: 'Aarusha' },
   partnerTwo: { np: 'आश्लेष', en: 'Ashlesh' },
   and: { np: 'र', en: '&' }, // between the two names
-  occasion: { np: 'शुभ सगाई', en: 'Engagement Ceremony' },
+  occasion: { np: 'फूलमाला', en: 'Engagement Ceremony' },
   blessing: {
     np: 'परिवारजनको आशीर्वादसहित हाम्रो नयाँ जीवनको सुरुवातको यस शुभ अवसरमा यहाँहरूको गरिमामय उपस्थितिको हार्दिक अनुरोध गर्दछौं।',
     en: 'With the blessings of our families, we request the honour of your presence.',
@@ -35,7 +35,7 @@ export const invite = {
     venueLabel: { np: 'स्थान', en: 'Venue' },
   },
   // Placeholder BS date: confirm against a patro before sharing. Also shown on the name card.
-  dateLabel: { np: 'मङ्सिर २६, २०८३ शनिबार', en: 'Saturday, 12 December 2026' },
+  dateLabel: { np: 'असोज २६, २०८३ शनिबार', en: 'Saturday, 12 December 2026' },
   time: { np: 'बिहान ११:०० बजे', en: '11:00 AM' },
   venue: {
     name: 'स्थानको नाम',
