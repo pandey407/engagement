@@ -24,3 +24,10 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
 3. **GitHub repo → Settings → Pages**: Source = *GitHub Actions*. Custom domain = `invite.ashleshpandey.com.np`
    (also stored in `public/CNAME`). Tick *Enforce HTTPS* once the certificate is issued.
 4. **GitHub account → Settings → Pages → Add a domain**: verify `ashleshpandey.com.np` with the TXT record it gives you.
+
+## Theme art
+
+Ornaments (lotus, garlands, arch frame, Ganesh, diya…) are cut from our own generated sheet
+`design/theme-sheet.webp` into `src/assets/theme/*.webp` by `scripts/extract-theme.py`
+(transparent background, 2× upscale). Use them in components via `art('name')` from `src/lib/art.ts`.
+The Patan Durbar skyline is hand-drawn SVG in `src/components/Art.tsx`.

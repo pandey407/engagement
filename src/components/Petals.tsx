@@ -32,7 +32,7 @@ export function Petals({ count = 14 }: { count?: number }) {
   return (
     <div ref={root} aria-hidden className="pointer-events-none fixed inset-0 z-10 overflow-hidden">
       {Array.from({ length: count }, (_, i) => (
-        <svg key={i} className={`petal absolute top-0 left-0 size-4 ${i % 3 ? 'text-lotus-light' : 'text-lotus/60'}`} viewBox="0 0 20 20">
+        <svg key={i} className={`petal absolute top-0 left-0 size-4 ${i % 3 ? 'text-blush' : 'text-lotus/70'}`} viewBox="0 0 20 20">
           <path fill="currentColor" d="M10 0C14 5 16 10 10 20 4 10 6 5 10 0Z" />
         </svg>
       ))}

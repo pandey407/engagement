@@ -1,14 +1,17 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-cream: #faf3e8;
-  --color-paper: #f3e6d3;
-  --color-maroon: #7a1426;
-  --color-maroon-deep: #4a0a16;
-  --color-lotus: #d9577a;
-  --color-lotus-light: #f5c2cf;
-  --color-gold: #b8863b;
-  --color-sage: #6f7f4f;
+  /* Palette sampled from the theme sheet swatches. */
+  --color-cream: #faf4ea;
+  --color-paper: #f1d3c7;
+  --color-blush: #f5b7b7;
+  --color-lotus: #dc7d87;
+  --color-lotus-light: #f5b7b7;
+  --color-maroon: #77142a;
+  --color-maroon-deep: #4a0a18;
+  --color-sage: #9f9b7c;
+  --color-gold-light: #ddaf7a;
+  --color-gold: #a87a3a;
   --color-brick: #9c4a32;
   --color-ink: #3b2418;
 
@@ -61,15 +64,27 @@ body {
   background: var(--color-gold);
 }
 
-/* Dhaka-inspired geometric border strip. */
-.dhaka {
-  height: 14px;
-  background:
-    linear-gradient(135deg, var(--color-lotus) 25%, transparent 25%) -7px 0 / 14px 14px,
-    linear-gradient(225deg, var(--color-lotus) 25%, transparent 25%) -7px 0 / 14px 14px,
-    linear-gradient(315deg, var(--color-gold) 25%, transparent 25%) 0 0 / 14px 14px,
-    linear-gradient(45deg, var(--color-gold) 25%, transparent 25%) 0 0 / 14px 14px,
-    var(--color-maroon-deep);
+/* Painted lotus border strip, tiled horizontally. */
+.band {
+  height: 44px;
+  background: var(--band) repeat-x center / auto 100%;
+}
+
+/* Pink arch frame as a 9-slice layer behind the hero card: arch and lotus corners keep their shape, the sides stretch.
+   Slices are in source pixels of frame-pink.webp (696 x 1020); --s scales them to the box width. */
+.arch-frame {
+  --s: calc(var(--w) / 696);
+  border-style: solid;
+  border-width: calc(560 * var(--s)) calc(210 * var(--s)) calc(390 * var(--s));
+  border-image: var(--frame) 560 210 390 fill / calc(560 * var(--s)) calc(210 * var(--s)) calc(390 * var(--s)) stretch;
+}
+
+@keyframes drift {
+  from { transform: translateX(-4%); }
+  to { transform: translateX(4%); }
+}
+.drift {
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
 @keyframes sway {

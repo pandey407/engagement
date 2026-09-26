@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { invite } from '../config'
+import { art } from '../lib/art'
 import { gsap, prefersReducedMotion } from '../lib/motion'
 
 // Full-screen "envelope" the guest taps to open the invite.
@@ -25,16 +26,20 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
     <div ref={root} className="fixed inset-0 z-50 overflow-hidden">
       <div ref={top} className="absolute inset-x-0 top-0 h-1/2 velvet" />
       <div ref={bottom} className="absolute inset-x-0 bottom-0 h-1/2 velvet velvet-deep" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between px-[8%]">
+        <img src={art('lantern-1')} alt="" className="sway w-10 sm:w-12" />
+        <img src={art('lantern-2')} alt="" className="sway mt-8 w-10 sm:w-12" />
+      </div>
       <div ref={content} className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center text-cream">
-        <p className="font-display text-2xl text-gold">{invite.invocation}</p>
+        <p className="font-display text-2xl text-gold-light">{invite.invocation}</p>
         <p className="-mt-4 text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
         <button
           ref={seal}
           onClick={open}
           aria-label="Open invitation"
-          className="flex size-28 items-center justify-center rounded-full border-4 border-double border-gold bg-cream font-display text-5xl text-maroon shadow-2xl transition-transform hover:scale-105"
+          className="w-44 drop-shadow-2xl transition-transform hover:scale-105 sm:w-52"
         >
-          श्री
+          <img src={art('ganesh-medallion')} alt="" draggable={false} />
         </button>
         <p className="text-sm opacity-70">खोल्न थिच्नुहोस् · Tap to open</p>
       </div>
