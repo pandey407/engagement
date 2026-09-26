@@ -4,7 +4,9 @@ Live at **https://invite.ashleshpandey.com.np**, hosted on GitHub Pages from `pa
 
 ## Edit the invite
 
-All text (names, date, events, venue, RSVP links) is in `src/config.ts`.
+**All text is in one file: `src/content.ts`** — names, blessing, date, time, venue and map links, RSVP,
+closing lines, the envelope shloka, section headings, and the page title / link-preview text
+(filled into `index.html` at build time).
 Add a 1200×630 `public/thumbnail.png` for WhatsApp/Messenger link previews.
 
 ```bash

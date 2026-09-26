@@ -1,6 +1,6 @@
 import { useRef, type CSSProperties } from 'react'
 import paperUrl from '../assets/envelope/paper.webp'
-import { invite } from '../config'
+import { invite } from '../content'
 import { Ganesh, Seal } from './Ornaments'
 import { gsap, prefersReducedMotion } from '../lib/motion'
 
@@ -49,7 +49,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
       <button
         ref={seal}
         onClick={open}
-        aria-label="Open invitation"
+        aria-label={invite.openLabel}
         className="absolute top-1/2 left-1/2 cursor-pointer w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
       >
         {/* Gold ripples + a slow pulse invite a tap (no text needed). */}

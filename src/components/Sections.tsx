@@ -5,7 +5,7 @@ import archTop from '../assets/frame/arch-top.webp'
 import maroonBottom from '../assets/frame/maroon-bottom.webp'
 import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
-import { invite } from '../config'
+import { invite } from '../content'
 import { Band, Cloud, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -57,11 +57,11 @@ export function Hero() {
 
         <h1 data-reveal className="mt-6 font-display text-5xl leading-tight text-maroon sm:text-6xl">
           {invite.partnerOne.np}
-          <span className="block text-3xl text-gold">र</span>
+          <span className="block text-3xl text-gold">{invite.and.np}</span>
           {invite.partnerTwo.np}
         </h1>
         <p data-reveal className="mt-2 text-xs tracking-widest text-ink/60 uppercase">
-          {invite.partnerOne.en} &amp; {invite.partnerTwo.en}
+          {invite.partnerOne.en} {invite.and.en} {invite.partnerTwo.en}
         </p>
 
         <Divider className="my-5" />
@@ -97,11 +97,11 @@ export function Details() {
       <Cloud n={3} className="absolute top-10 -right-[12%] hidden w-[22vw] max-w-[18rem] opacity-70 lg:block" />
       <Cloud n={2} className="absolute bottom-16 -left-[10%] hidden w-[24vw] max-w-[20rem] opacity-70 [animation-delay:-6s] lg:block" />
       <div className="relative flex w-full max-w-2xl flex-col items-center">
-        <Heading np="शुभ साइत" en="When & where" />
+        <Heading {...invite.details.heading} />
 
         <div data-reveal className="grid w-full grid-cols-2 divide-x divide-gold/40 text-center">
           <div className="px-3 sm:px-6">
-            <Label np="मिति र समय" en="Date & time" />
+            <Label {...invite.details.dateTimeLabel} />
             <p className="text-lg font-semibold text-maroon sm:text-xl">{invite.dateLabel.np}</p>
             <p className="mt-1 text-base text-ink/75">{invite.time.np}</p>
             <div className="mt-2">
@@ -113,7 +113,7 @@ export function Details() {
             </div>
           </div>
           <div className="px-3 sm:px-6">
-            <Label np="स्थान" en="Venue" />
+            <Label {...invite.details.venueLabel} />
             <a href={venue.mapLink} target="_blank" rel="noreferrer" className="text-lg font-semibold text-maroon sm:text-xl">
               {venue.name}
             </a>
@@ -126,7 +126,7 @@ export function Details() {
 
         <iframe
           data-reveal
-          title={`Map to ${venue.en}`}
+          title={venue.mapTitle}
           src={venue.mapEmbedUrl}
           loading="lazy"
           className="mt-10 aspect-[4/3] w-full rounded-2xl border-4 border-white/80 shadow-lg shadow-maroon/10"
@@ -137,20 +137,18 @@ export function Details() {
 }
 
 export function Rsvp() {
-  const { formUrl, whatsapp, deadline } = invite.rsvp
+  const { formUrl, whatsapp, deadline, heading, formButton, whatsappButton } = invite.rsvp
   if (!formUrl && !whatsapp) return null
-  const message = encodeURIComponent(
-    `नमस्ते! ${invite.partnerOne.np} र ${invite.partnerTwo.np}को ${invite.occasion.np}मा म आउँदैछु।`,
-  )
+  const message = encodeURIComponent(invite.rsvp.whatsappMessage)
   const button = 'rounded-full px-8 py-3 text-lg transition-colors'
   return (
     <Section>
-      <Heading np="तपाईं आउनुहुन्छ?" en="Will you join us?" />
+      <Heading {...heading} />
       <p data-reveal className="mb-8 text-lg text-ink/70">{deadline}</p>
       <div data-reveal className="flex flex-wrap justify-center gap-4">
         {formUrl && (
           <a href={formUrl} target="_blank" rel="noreferrer" className={`${button} bg-maroon text-cream hover:bg-maroon-deep`}>
-            जानकारी दिनुहोस् · RSVP
+            {formButton}
           </a>
         )}
         {whatsapp && (
@@ -160,7 +158,7 @@ export function Rsvp() {
             rel="noreferrer"
             className={`${button} border border-maroon text-maroon hover:bg-maroon hover:text-cream`}
           >
-            WhatsApp
+            {whatsappButton}
           </a>
         )}
       </div>
