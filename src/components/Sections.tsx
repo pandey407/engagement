@@ -6,7 +6,7 @@ import maroonBottom from '../assets/frame/maroon-bottom.webp'
 import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../config'
-import { Band, Divider, Hanging } from './Ornaments'
+import { Band, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
@@ -34,9 +34,6 @@ export function Hero() {
   return (
     <header className="relative min-h-svh overflow-hidden pb-16">
       <Band />
-      {/* A pair of hanging lotus ornaments either side of the arch. */}
-      <Hanging className="absolute top-5 left-[2%] z-10 w-[11vw] max-w-[4.5rem] sm:left-[8%]" />
-      <Hanging className="absolute top-5 right-[2%] z-10 w-[11vw] max-w-[4.5rem] [animation-delay:-1.5s] sm:right-[8%]" />
       <div
         className="relative mx-auto mt-10 flex flex-col items-center px-[calc(var(--w)*0.13)] pt-[calc(var(--w)*0.5)] pb-[calc(var(--w)*0.4)] text-center"
         style={

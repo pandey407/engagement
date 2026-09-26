@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 import ganeshUrl from '../assets/ganesh.svg'
 import dividerUrl from '../assets/divider/divider.webp'
-import hangingUrl from '../assets/ornament/hanging.webp'
 import sealUrl from '../assets/seal/seal.webp'
 
 // Our Ganesh line art, drawn as a CSS mask so it takes the current text colour.
@@ -68,9 +67,4 @@ export function Band() {
 // Painted lotus wax seal (our generated art, cut out by scripts/cut-seal.py).
 export function Seal({ className = '' }: { className?: string }) {
   return <img src={sealUrl} alt="" draggable={false} className={`select-none ${className}`} />
-}
-
-// Painted hanging lotus ornament with gold teardrop and tassel (our generated art).
-export function Hanging({ className = '' }: { className?: string }) {
-  return <img src={hangingUrl} alt="" aria-hidden draggable={false} className={`sway pointer-events-none select-none ${className}`} />
 }

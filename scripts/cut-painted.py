@@ -2,7 +2,6 @@
 # Paper is near-neutral; the art is pink, gold, green, maroon or pencil-dark, so alpha comes from colour + darkness.
 # Usage: python3 scripts/cut-painted.py SRC OUT MAX_SIDE
 #   divider:  python3 scripts/cut-painted.py design/divider.jpeg src/assets/divider/divider.webp 1400
-#   ornament: python3 scripts/cut-painted.py design/ornament.jpeg src/assets/ornament/hanging.webp 1400
 from PIL import Image, ImageFilter
 import numpy as np
 from collections import deque
