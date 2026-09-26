@@ -18,8 +18,8 @@
   /* Latin first, so English uses Cormorant and Devanagari glyphs fall through to the Nepali face. */
   --font-display: 'Cormorant Garamond', 'Tiro Devanagari Sanskrit', Georgia, serif;
   --font-sans: 'Cormorant Garamond', 'Noto Serif Devanagari', Georgia, serif;
-  /* Just for our names: a romantic flowing script (Parisienne) with a bold, crisp Devanagari (Arya). */
-  --font-names: 'Parisienne', 'Arya', cursive;
+  /* Just for our names: a romantic flowing script (Parisienne) with a graceful Devanagari (Laila). */
+  --font-names: 'Parisienne', 'Laila', cursive;
 }
 
 html.lenis,

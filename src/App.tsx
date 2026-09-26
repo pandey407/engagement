@@ -3,6 +3,7 @@ import { Intro } from './components/Intro'
 import { Petals } from './components/Petals'
 import { Closing, Details, Hero } from './components/Sections'
 import { LangProvider, LangToggle } from './components/Lang'
+import { preloadFonts } from './lib/fonts'
 import { revealOnScroll, ScrollTrigger, startSmoothScroll } from './lib/motion'
 
 export default function App() {
@@ -12,6 +13,11 @@ export default function App() {
   // between the parting flaps instead of appearing first and animating afterwards.
   const [revealing, setRevealing] = useState(opened)
   const main = useRef<HTMLElement>(null)
+
+  // Fetch every font face (both languages) during the envelope, so the language toggle never flashes.
+  useEffect(() => {
+    preloadFonts()
+  }, [])
 
   useEffect(() => {
     if (!revealing || !main.current) return

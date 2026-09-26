@@ -17,18 +17,18 @@ const text = {
 }
 
 const html = `<!doctype html><html lang="ne"><head><meta charset="utf-8"><title>preview</title>
-<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Arya:wght@400;700&family=Cormorant+Garamond:wght@500;600&family=Tiro+Devanagari+Sanskrit&family=Noto+Serif+Devanagari:wght@600&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Laila:wght@400;600&family=Cormorant+Garamond:wght@500;600&family=Tiro+Devanagari+Sanskrit&family=Noto+Serif+Devanagari:wght@600&display=block" rel="stylesheet">
 <style>body{margin:0;background:#222;color:#eee;font:14px system-ui}canvas{display:block}</style></head><body>
 <canvas id="c" width="1200" height="630"></canvas><p id="status">drawing…</p>
 <script type="module">
 const T = ${JSON.stringify(text)}
 const A = (p) => '/src/assets/' + p
 const load = (src) => new Promise((ok, err) => { const i = new Image(); i.onload = () => ok(i); i.onerror = err; i.src = src })
-const NAMES = "'Parisienne', 'Arya'"
+const NAMES = "'Parisienne', 'Laila'"
 const DISPLAY = "'Cormorant Garamond', 'Tiro Devanagari Sanskrit'", BODY = "'Cormorant Garamond', 'Noto Serif Devanagari'"
 await Promise.all([
   document.fonts.load("48px 'Tiro Devanagari Sanskrit'", T.occasion),
-  document.fonts.load("bold 48px 'Arya'", T.one + T.two + T.and),
+  document.fonts.load("600 48px 'Laila'", T.one + T.two + T.and),
   document.fonts.load("48px 'Parisienne'", T.namesEn),
   document.fonts.load("600 30px 'Noto Serif Devanagari'", T.date),
   document.fonts.load("500 14px 'Cormorant Garamond'", 'A'),
@@ -61,9 +61,9 @@ const bhh = bot.height * W / bot.width; g.drawImage(bot, x0, y0 + H - bhh, W, bh
 
 // Text.
 const say = (t, x, y, font, color, spacing = 0) => { g.font = font; g.fillStyle = color; g.letterSpacing = spacing + 'px'; g.textAlign = 'center'; g.fillText(t, x, y) }
-say(T.one, 600, 250, 'bold 46px ' + NAMES, '#77142a')
+say(T.one, 600, 250, '600 46px ' + NAMES, '#77142a')
 say(T.and, 600, 288, '26px ' + NAMES, '#a87a3a')
-say(T.two, 600, 340, 'bold 46px ' + NAMES, '#77142a')
+say(T.two, 600, 340, '600 46px ' + NAMES, '#77142a')
 say(T.namesEn, 600, 365, '500 13px ' + BODY, 'rgba(59,36,24,.65)', 3)
 say(T.occasion, 195, 300, '40px ' + DISPLAY, '#77142a')
 say(T.occasionEn, 195, 330, '500 14px ' + BODY, '#a87a3a', 4)

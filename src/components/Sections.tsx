@@ -54,7 +54,7 @@ export function Hero() {
 
         <h1
           data-reveal
-          className={`mt-6 font-names leading-tight text-maroon ${lang === 'en' ? 'text-5xl sm:text-6xl' : 'text-4xl font-bold sm:text-5xl'}`}
+          className={`mt-6 font-names leading-tight text-maroon ${lang === 'en' ? 'text-5xl sm:text-6xl' : 'text-4xl font-semibold sm:text-5xl'}`}
         >
           {t(invite.partnerOne)}
           <span className={`block text-gold ${lang === 'en' ? 'text-3xl' : 'text-2xl'}`}>{t(invite.and)}</span>
