@@ -13,6 +13,13 @@ export const invite = {
     en: 'With the blessings of our families, we request the honour of your presence.',
   },
 
+  story: {
+    heading: { np: 'हाम्रो भेट', en: 'Where it all began' },
+    place: { np: 'पाटन दरबार क्षेत्र', en: 'Patan Durbar Square' },
+    np: 'पाटनका ढुङ्गेधारा, मन्दिर र गल्लीहरूबीच हाम्रो कथा सुरु भयो।',
+    en: 'Our story began among the temples, stone spouts and lanes of Patan.',
+  },
+
   // Countdown target. Use Nepal time (+05:45).
   date: '2026-12-12T11:00:00+05:45',
   // Placeholder BS date — confirm against a patro before sharing.

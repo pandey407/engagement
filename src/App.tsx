@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Intro } from './components/Intro'
 import { Petals } from './components/Petals'
-import { Closing, Countdown, Events, Hero, Rsvp, Venue } from './components/Sections'
+import { Closing, Countdown, Events, Hero, Rsvp, Story, Venue } from './components/Sections'
 import { revealOnScroll, startSmoothScroll } from './lib/motion'
 
 export default function App() {
-  const [opened, setOpened] = useState(false)
+  // ?open skips the envelope (handy for testing or a direct link to the details).
+  const [opened, setOpened] = useState(() => new URLSearchParams(location.search).has('open'))
   const main = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function App() {
       {opened && <Petals />}
       <main ref={main} className={opened ? '' : 'h-svh overflow-hidden'}>
         <Hero />
+        <Story />
         <Countdown />
         <Events />
         <Venue />
