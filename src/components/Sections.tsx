@@ -19,7 +19,7 @@ function Section({ children, className = '' }: { children: ReactNode; className?
 function Heading({ np, en }: { np: string; en: string }) {
   return (
     <div data-reveal className="mb-10 flex flex-col items-center">
-      <h2 className="font-display text-4xl text-maroon sm:text-5xl">{np}</h2>
+      <h2 className="font-display text-3xl text-maroon sm:text-4xl">{np}</h2>
       <p className="mt-1 text-xs tracking-[0.3em] text-gold uppercase">{en}</p>
       <Divider className="mt-4" />
     </div>
@@ -51,13 +51,13 @@ export function Hero() {
         }
       >
         <div className="arch-card absolute inset-0 -z-10" />
-        <p data-reveal className="font-display text-lg text-maroon">{invite.invocation}</p>
-        <p data-reveal className="mt-2 font-display text-3xl text-lotus">{invite.occasion.np}</p>
+        <p data-reveal className="font-display text-base text-maroon">{invite.invocation}</p>
+        <p data-reveal className="mt-2 font-display text-2xl text-lotus">{invite.occasion.np}</p>
         <p data-reveal className="text-[10px] tracking-[0.3em] text-gold uppercase">{invite.occasion.en}</p>
 
-        <h1 data-reveal className="mt-6 font-display text-5xl leading-tight text-maroon sm:text-6xl">
+        <h1 data-reveal className="mt-6 font-display text-4xl leading-tight text-maroon sm:text-5xl">
           {invite.partnerOne.np}
-          <span className="block text-3xl text-gold">{invite.and.np}</span>
+          <span className="block text-2xl text-gold">{invite.and.np}</span>
           {invite.partnerTwo.np}
         </h1>
         <p data-reveal className="mt-2 text-xs tracking-widest text-ink/60 uppercase">
@@ -65,12 +65,12 @@ export function Hero() {
         </p>
 
         <Divider className="my-5" />
-        <p data-reveal className="text-base leading-relaxed text-ink/80">{invite.blessing.np}</p>
+        <p data-reveal className="text-sm leading-relaxed text-ink/80">{invite.blessing.np}</p>
         <div data-reveal className="mt-1">
           <Sub>{invite.blessing.en}</Sub>
         </div>
 
-        <p data-reveal className="mt-5 text-xl font-semibold text-maroon">{invite.dateLabel.np}</p>
+        <p data-reveal className="mt-5 text-lg font-semibold text-maroon">{invite.dateLabel.np}</p>
         <div data-reveal>
           <Sub>{invite.dateLabel.en}</Sub>
         </div>
@@ -82,7 +82,7 @@ export function Hero() {
 function Label({ np, en }: { np: string; en: string }) {
   return (
     <div className="mb-3">
-      <p className="text-base text-gold">{np}</p>
+      <p className="text-sm text-gold">{np}</p>
       {/* Letter-spacing only on the Latin line: it breaks up Devanagari conjuncts. */}
       <p className="text-[10px] tracking-[0.25em] text-gold/80 uppercase">{en}</p>
     </div>
@@ -102,8 +102,8 @@ export function Details() {
         <div data-reveal className="grid w-full grid-cols-2 divide-x divide-gold/40 text-center">
           <div className="px-3 sm:px-6">
             <Label {...invite.details.dateTimeLabel} />
-            <p className="text-lg font-semibold text-maroon sm:text-xl">{invite.dateLabel.np}</p>
-            <p className="mt-1 text-base text-ink/75">{invite.time.np}</p>
+            <p className="text-base font-semibold text-maroon sm:text-lg">{invite.dateLabel.np}</p>
+            <p className="mt-1 text-sm text-ink/75">{invite.time.np}</p>
             <div className="mt-2">
               <Sub>
                 {invite.dateLabel.en}
@@ -114,10 +114,10 @@ export function Details() {
           </div>
           <div className="px-3 sm:px-6">
             <Label {...invite.details.venueLabel} />
-            <a href={venue.mapLink} target="_blank" rel="noreferrer" className="text-lg font-semibold text-maroon sm:text-xl">
+            <a href={venue.mapLink} target="_blank" rel="noreferrer" className="text-base font-semibold text-maroon sm:text-lg">
               {venue.name}
             </a>
-            <p className="mt-1 text-base text-ink/75">{venue.address}</p>
+            <p className="mt-1 text-sm text-ink/75">{venue.address}</p>
             <div className="mt-2">
               <Sub>{venue.en}</Sub>
             </div>
@@ -140,11 +140,11 @@ export function Rsvp() {
   const { formUrl, whatsapp, deadline, heading, formButton, whatsappButton } = invite.rsvp
   if (!formUrl && !whatsapp) return null
   const message = encodeURIComponent(invite.rsvp.whatsappMessage)
-  const button = 'rounded-full px-8 py-3 text-lg transition-colors'
+  const button = 'rounded-full px-8 py-3 text-base transition-colors'
   return (
     <Section>
       <Heading {...heading} />
-      <p data-reveal className="mb-8 text-lg text-ink/70">{deadline}</p>
+      <p data-reveal className="mb-8 text-base text-ink/70">{deadline}</p>
       <div data-reveal className="flex flex-wrap justify-center gap-4">
         {formUrl && (
           <a href={formUrl} target="_blank" rel="noreferrer" className={`${button} bg-maroon text-cream hover:bg-maroon-deep`}>
@@ -182,9 +182,9 @@ export function Closing() {
         }
       >
         <div className="maroon-card absolute inset-0 -z-10" />
-        <p data-reveal className="font-display text-xl leading-snug sm:text-3xl">{invite.closing.np}</p>
+        <p data-reveal className="font-display text-lg leading-snug sm:text-2xl">{invite.closing.np}</p>
         <p data-reveal className="mt-2 text-sm text-cream/65">{invite.closing.en}</p>
-        <p data-reveal className="mt-5 font-display text-lg text-gold-light sm:text-2xl">{invite.familyLine.np}</p>
+        <p data-reveal className="mt-5 font-display text-base text-gold-light sm:text-xl">{invite.familyLine.np}</p>
         <p data-reveal className="mt-1 text-sm text-cream/65">{invite.familyLine.en}</p>
       </div>
       <Band />

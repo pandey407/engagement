@@ -15,8 +15,9 @@
   --color-brick: #9c4a32;
   --color-ink: #3b2418;
 
-  --font-display: 'Rozha One', 'Noto Serif Devanagari', serif;
-  --font-sans: 'Mukta', 'Noto Sans Devanagari', system-ui, sans-serif;
+  /* Latin first, so English uses Cormorant and Devanagari glyphs fall through to the Nepali face. */
+  --font-display: 'Cormorant Garamond', 'Tiro Devanagari Sanskrit', Georgia, serif;
+  --font-sans: 'Cormorant Garamond', 'Noto Serif Devanagari', Georgia, serif;
 }
 
 html.lenis,
@@ -33,6 +34,7 @@ html.lenis body {
 body {
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   /* Handmade-paper grain over the cream base. */
   background:

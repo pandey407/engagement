@@ -35,14 +35,14 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
           <Ganesh className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
         </div>
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-4 px-6 pt-[min(19vw,5rem)] text-center">
-          <p className="font-display text-lg leading-relaxed text-gold-light/90 sm:text-xl">
+          <p className="font-display text-base leading-relaxed text-gold-light/90 sm:text-lg">
             {invite.shloka.map((line) => (
               <span key={line} className="block">
                 {line}
               </span>
             ))}
           </p>
-          <p className="font-display text-2xl text-gold-light">{invite.invocation}</p>
+          <p className="font-display text-xl text-gold-light">{invite.invocation}</p>
         </div>
       </div>
 
