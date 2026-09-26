@@ -74,8 +74,17 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
       g.drawImage(src, 0, 0, W, H)
     }
     window.addEventListener('resize', redraw)
+    document.fonts.addEventListener('loadingdone', redraw) // a late font: redraw the settled text in it
 
     ;(async () => {
+      // Make sure the exact fonts for these characters are downloaded before cutting the dust from them
+      // (document.fonts.ready alone can resolve before a Devanagari subset has even been requested).
+      const first = box.querySelector<HTMLElement>('[data-line]')!
+      const cs = getComputedStyle(first)
+      const text = lines.join(' ')
+      await Promise.all(
+        cs.fontFamily.split(',').map((f) => document.fonts.load(`${cs.fontWeight} ${cs.fontSize} ${f.trim()}`, text).catch(() => [])),
+      )
       await document.fonts.ready
       if (cancelled) return
       const { g, src, dpr, W, H, lines: boxes } = prepare(box, cv)
@@ -146,6 +155,7 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
       cancelled = true
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', redraw)
+      document.fonts.removeEventListener('loadingdone', redraw)
     }
     // Runs once on mount: the dust sequence plays a single time.
     // eslint-disable-next-line react-hooks/exhaustive-deps
