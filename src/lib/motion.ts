@@ -20,18 +20,17 @@ export function startSmoothScroll() {
   }
 }
 
-// Fades up every [data-reveal] element inside `root` as it scrolls into view.
+// Fades up every [data-reveal] element inside `root` as it scrolls into view. They start hidden via CSS
+// (index.css), so nothing flashes before this runs; elements already on screen animate straight away.
 export function revealOnScroll(root: HTMLElement) {
   if (prefersReducedMotion()) return () => {}
   const ctx = gsap.context(() => {
     gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
-      gsap.from(el, {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 85%' },
-      })
+      gsap.fromTo(
+        el,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } },
+      )
     })
   }, root)
   return () => ctx.revert()

@@ -177,6 +177,12 @@ body {
   .seal-ripple { display: none; }
 }
 
+/* Scroll-reveal elements start hidden (GSAP fades them up, see lib/motion.ts), so the page never flashes
+   fully-formed before its animation. Skipped for reduced motion, where nothing animates. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] { opacity: 0; }
+}
+
 @keyframes drift {
   from { transform: translateX(-4%); }
   to { transform: translateX(4%); }

@@ -26,7 +26,7 @@ const at = (phase: Phase, from: Phase) => {
 }
 
 // Full-screen "envelope" the guest taps to open the invite.
-export function Intro({ onOpen }: { onOpen: () => void }) {
+export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart?: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const top = useRef<HTMLDivElement>(null)
   const bottom = useRef<HTMLDivElement>(null)
@@ -43,6 +43,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
 
   const open = () => {
     if (phase !== 'ready') return
+    onOpenStart?.()
     if (prefersReducedMotion()) return onOpen()
     gsap
       .timeline({ onComplete: onOpen })
