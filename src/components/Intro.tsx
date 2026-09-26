@@ -34,18 +34,18 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
           <p className="mt-2 font-display text-2xl text-gold-light">{invite.invocation}</p>
           <p className="text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
         </div>
-        <p className="absolute inset-x-0 top-[calc(50%+min(19vw,5rem)+1.25rem)] text-center text-sm opacity-70">
-          खोल्न थिच्नुहोस् · Tap to open
-        </p>
       </div>
 
       <button
         ref={seal}
         onClick={open}
         aria-label="Open invitation"
-        className="absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
+        className="absolute top-1/2 left-1/2 cursor-pointer w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
       >
-        <Seal className="w-full" />
+        {/* Gold ripples + a slow pulse invite a tap (no text needed). */}
+        <span aria-hidden className="seal-ripple absolute inset-[8%] rounded-full" />
+        <span aria-hidden className="seal-ripple absolute inset-[8%] rounded-full [animation-delay:1.2s]" />
+        <Seal className="seal-pulse relative w-full" />
       </button>
     </div>
   )
