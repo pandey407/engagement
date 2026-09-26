@@ -129,6 +129,8 @@ export function Details() {
           title={venue.mapTitle}
           src={venue.mapEmbedUrl}
           loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
           className="mt-10 aspect-[4/3] w-full rounded-2xl border-4 border-white/80 shadow-lg shadow-maroon/10"
         />
       </div>

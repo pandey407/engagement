@@ -35,17 +35,18 @@ export const invite = {
     venueLabel: { np: 'स्थान', en: 'Venue' },
   },
   // Placeholder BS date: confirm against a patro before sharing. Also shown on the name card.
-  dateLabel: { np: 'असोज २६, २०८३ शनिबार', en: 'Saturday, 12 December 2026' },
-  time: { np: 'बिहान ११:०० बजे', en: '11:00 AM' },
+  dateLabel: { np: 'असोज २६, २०८३ सोमवार', en: 'Monday, 12 October 2026' },
+  time: { np: 'दिउँसो २:०० बजे', en: '2:00 PM' },
   venue: {
-    name: 'स्थानको नाम',
-    address: 'ठेगाना, काठमाडौं',
-    en: 'Venue Name, Kathmandu',
+    name: 'अक्वाकुनो',
+    address: 'हात्तीगौंडा (खत्री गाउँ), काठमाडौं',
+    en: 'AquaKuno, Hattigauda (Khatri Gaun), Kathmandu, Nepal',
     // Google Maps → Share → Embed a map → copy the src="..." URL
-    mapEmbedUrl: 'https://www.google.com/maps?q=Kathmandu&output=embed',
+    mapEmbedUrl:
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3530.6050939221896!2d85.3416597!3d27.760323999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1f3d03bd1a5d%3A0xbc19213e48bac64!2sAquaKuno!5e0!3m2!1sen!2snp!4v1790441284980!5m2!1sen!2snp',
     // Google Maps → Share → Copy link (tapping the venue name opens this)
-    mapLink: 'https://maps.google.com/?q=Kathmandu',
-    mapTitle: 'Map to the venue', // read out by screen readers
+    mapLink: 'https://maps.google.com/?cid=847118819058756708', // AquaKuno's Google Maps place
+    mapTitle: 'Map to AquaKuno', // read out by screen readers
   },
 
   // ── Closing card ───────────────────────────────────────────────────────────────────
