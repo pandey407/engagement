@@ -122,6 +122,8 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
       cancelled = true
       cancelAnimationFrame(raf)
     }
+    // Runs once on mount: the dust sequence plays a single time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const lineStyle =
