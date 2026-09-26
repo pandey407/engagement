@@ -13,15 +13,10 @@ export const invite = {
     en: 'With the blessings of our families, we request the honour of your presence.',
   },
 
-  // Countdown target. Use Nepal time (+05:45).
-  date: '2026-12-12T11:00:00+05:45',
   // Placeholder BS date — confirm against a patro before sharing.
   dateLabel: { np: 'मङ्सिर २६, २०८३ शनिबार', en: 'Saturday, 12 December 2026' },
 
-  events: [
-    { time: 'बिहान ११:००', name: 'औंठी साटासाट', en: 'Ring exchange & blessings' },
-    { time: 'दिउँसो १:००', name: 'भोज', en: 'Lunch' },
-  ],
+  time: { np: 'बिहान ११:०० बजे', en: '11:00 AM' },
 
   venue: {
     name: 'स्थानको नाम',
@@ -29,7 +24,7 @@ export const invite = {
     en: 'Venue Name, Kathmandu',
     // Google Maps → Share → Embed a map → copy the src="..." URL
     mapEmbedUrl: 'https://www.google.com/maps?q=Kathmandu&output=embed',
-    // Google Maps → Share → Copy link
+    // Google Maps → Share → Copy link (tapping the venue name opens this)
     mapLink: 'https://maps.google.com/?q=Kathmandu',
   },
 

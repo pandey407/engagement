@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import archBottom from '../assets/frame/arch-bottom.webp'
 import archMid from '../assets/frame/arch-mid.webp'
 import archTop from '../assets/frame/arch-top.webp'
@@ -7,9 +7,6 @@ import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../config'
 import { Band, Divider } from './Ornaments'
-
-const NP_DIGITS = '०१२३४५६७८९'
-const toNepaliDigits = (s: string) => s.replace(/\d/g, (d) => NP_DIGITS[Number(d)])
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
@@ -78,71 +75,29 @@ export function Hero() {
   )
 }
 
-function useCountdown(target: string) {
-  const [now, setNow] = useState(() => Date.now())
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(id)
-  }, [])
-  const diff = Math.max(0, new Date(target).getTime() - now)
-  return [
-    ['दिन', Math.floor(diff / 86_400_000)],
-    ['घण्टा', Math.floor(diff / 3_600_000) % 24],
-    ['मिनेट', Math.floor(diff / 60_000) % 60],
-    ['सेकेन्ड', Math.floor(diff / 1000) % 60],
-  ] as const
-}
-
-export function Countdown() {
-  const parts = useCountdown(invite.date)
-  return (
-    <Section className="max-w-none bg-paper/40">
-      <Heading np="शुभ साइत" en="Counting down" />
-      <div data-reveal className="grid grid-cols-4 gap-3 sm:gap-6">
-        {parts.map(([label, value]) => (
-          <div key={label} className="flex flex-col items-center">
-            <span className="text-4xl font-semibold text-maroon tabular-nums sm:text-6xl">
-              {toNepaliDigits(String(value).padStart(2, '0'))}
-            </span>
-            <span className="mt-1 text-sm text-ink/60">{label}</span>
-          </div>
-        ))}
-      </div>
-    </Section>
-  )
-}
-
-export function Events() {
-  return (
-    <Section className="overflow-hidden">
-      <Heading np="कार्यक्रम" en="The day" />
-      <p data-reveal className="mb-10 text-lg text-ink/70">{invite.dateLabel.np}</p>
-      <ol className="w-full space-y-6">
-        {invite.events.map((e) => (
-          <li
-            key={e.name}
-            data-reveal
-            className="rounded-2xl border border-gold/40 bg-white/60 px-6 py-6 text-left shadow-sm shadow-maroon/5 sm:flex sm:items-baseline sm:gap-6"
-          >
-            <span className="text-2xl font-semibold whitespace-nowrap text-lotus">{e.time}</span>
-            <div>
-              <h3 className="font-display text-2xl text-maroon">{e.name}</h3>
-              <Sub>{e.en}</Sub>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </Section>
-  )
-}
-
-export function Venue() {
+// Date, time and venue in one section.
+export function Details() {
   const { venue } = invite
   return (
-    <Section className="max-w-none overflow-hidden bg-paper/40">
-      <div className="relative flex w-full max-w-2xl flex-col items-center">
-        <Heading np="स्थान" en="Where" />
-        <h3 data-reveal className="font-display text-3xl text-maroon">{venue.name}</h3>
+    <Section className="max-w-none bg-paper/40">
+      <div className="flex w-full max-w-2xl flex-col items-center">
+        <Heading np="शुभ साइत" en="When & where" />
+
+        <p data-reveal className="font-display text-3xl text-maroon sm:text-4xl">{invite.dateLabel.np}</p>
+        <div data-reveal>
+          <Sub>{invite.dateLabel.en}</Sub>
+        </div>
+
+        <p data-reveal className="mt-6 text-2xl font-semibold text-maroon">{invite.time.np}</p>
+        <div data-reveal>
+          <Sub>{invite.time.en}</Sub>
+        </div>
+
+        <Divider className="my-8" />
+
+        <a data-reveal href={venue.mapLink} target="_blank" rel="noreferrer" className="font-display text-3xl text-maroon">
+          {venue.name}
+        </a>
         <p data-reveal className="mt-1 text-lg text-ink/70">{venue.address}</p>
         <div data-reveal className="mb-8">
           <Sub>{venue.en}</Sub>
@@ -154,15 +109,6 @@ export function Venue() {
           loading="lazy"
           className="aspect-[4/3] w-full rounded-2xl border-4 border-white/80 shadow-lg shadow-maroon/10"
         />
-        <a
-          data-reveal
-          href={venue.mapLink}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-8 text-lg text-maroon underline decoration-lotus underline-offset-4"
-        >
-          नक्सामा हेर्नुहोस् · Open in Maps
-        </a>
       </div>
     </Section>
   )
