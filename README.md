@@ -33,3 +33,4 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
   (CC0 / public domain), cut out and tinted blush by `scripts/cut-lotus.py` from `design/lotus-nga-52325.jpg`.
 - `src/assets/frame/arch.webp`: our generated arched lotus card (`design/frame-arch.jpg`), cut out and sliced (top / stretchable middle / bottom) by `scripts/cut-frame.py`.
 - Dividers, border pattern: hand-drawn SVG in `src/components/Ornaments.tsx`.
+- `src/assets/seal/seal.webp`: our generated lotus wax seal (`design/seal.jpg`), cut out by `scripts/cut-seal.py`.

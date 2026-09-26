@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { invite } from '../config'
-import { Seal } from './Ornaments'
+import { Ganesh, Seal } from './Ornaments'
 import { gsap, prefersReducedMotion } from '../lib/motion'
 
 // Full-screen "envelope" the guest taps to open the invite.
@@ -26,14 +26,15 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
     <div ref={root} className="fixed inset-0 z-50 overflow-hidden">
       <div ref={top} className="absolute inset-x-0 top-0 h-1/2 velvet" />
       <div ref={bottom} className="absolute inset-x-0 bottom-0 h-1/2 velvet velvet-deep" />
-      <div ref={content} className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center text-cream">
-        <p className="font-display text-2xl text-gold-light">{invite.invocation}</p>
+      <div ref={content} className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 text-center text-cream">
+        <Ganesh className="w-[min(40vw,11rem)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
+        <p className="-mt-3 font-display text-2xl text-gold-light">{invite.invocation}</p>
         <p className="-mt-4 text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
         <button
           ref={seal}
           onClick={open}
           aria-label="Open invitation"
-          className="w-[min(78vw,22rem)] drop-shadow-[0_18px_30px_rgb(0_0_0/0.45)] transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+          className="mt-2 w-[min(68vw,19rem)] drop-shadow-[0_18px_30px_rgb(0_0_0/0.45)] transition-transform duration-300 hover:scale-[1.03] active:scale-95"
         >
           <Seal className="w-full" />
         </button>
