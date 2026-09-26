@@ -40,3 +40,4 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
 - `src/assets/envelope/paper.webp`: our generated maroon damask envelope paper (`design/envelope.jpeg`), resized to 1600 px.
 - `src/assets/clouds/cloud-{1,2,3}.webp`: our generated watercolour clouds (`design/clouds.jpeg`), cut out and split by `scripts/cut-clouds.py`.
 - `src/assets/border/tile.webp`: one seamless repeat of our generated lotus border strip (`design/border.jpeg`), cut by `scripts/cut-border.py`.
+- `src/assets/seal/outline.svg`: the seal's wavy edge traced to vector (`scripts/trace-seal-outline.py`), used for the ripple rings.

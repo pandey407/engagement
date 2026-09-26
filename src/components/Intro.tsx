@@ -1,8 +1,13 @@
 import { useRef, type CSSProperties } from 'react'
 import paperUrl from '../assets/envelope/paper.webp'
 import { invite } from '../content'
-import { Ganesh, Seal } from './Ornaments'
+import sealOutline from '../assets/seal/outline.svg?raw'
+import { GaneshDraw } from './GaneshDraw'
+import { Seal } from './Ornaments'
 import { gsap, prefersReducedMotion } from '../lib/motion'
+
+const outlinePath = sealOutline.match(/ d="([^"]+)"/)?.[1] ?? ''
+const outlineView = sealOutline.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 100 100'
 
 // Full-screen "envelope" the guest taps to open the invite.
 export function Intro({ onOpen }: { onOpen: () => void }) {
@@ -32,7 +37,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
       <div ref={content} className="text-cream">
         {/* Top flap: Ganesh. Bottom flap: shloka and invocation, below the seal. */}
         <div className="absolute inset-x-0 top-0 flex h-1/2 items-center justify-center pb-[min(19vw,5rem)]">
-          <Ganesh className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
+          <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
         </div>
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-4 px-6 pt-[min(19vw,5rem)] text-center">
           <p className="font-display text-base leading-relaxed text-gold-light/90 sm:text-lg">
@@ -52,9 +57,12 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
         aria-label={invite.openLabel}
         className="absolute top-1/2 left-1/2 cursor-pointer w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
       >
-        {/* Gold ripples + a slow pulse invite a tap (no text needed). */}
-        <span aria-hidden className="seal-ripple absolute inset-[8%] rounded-full" />
-        <span aria-hidden className="seal-ripple absolute inset-[8%] rounded-full [animation-delay:1.2s]" />
+        {/* Gold rings shaped like the seal's wavy edge ripple outwards, and the seal pulses, to invite a tap. */}
+        {[0, 1.2].map((delay) => (
+          <svg key={delay} aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
+            <path className="seal-ripple" d={outlinePath} style={{ animationDelay: `${delay}s` }} />
+          </svg>
+        ))}
         <Seal className="seal-pulse relative w-full" />
       </button>
     </div>

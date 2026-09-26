@@ -94,7 +94,7 @@ body {
   filter: drop-shadow(0 18px 30px rgb(74 10 24 / 0.25));
 }
 
-/* Envelope seal: slow pulse + expanding gold rings to show it can be pressed. */
+/* Envelope seal: slow pulse + expanding gold rings (traced to the seal's wavy edge) to show it can be pressed. */
 @keyframes seal-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.06); }
@@ -103,16 +103,56 @@ body {
   animation: seal-pulse 2.4s ease-in-out infinite;
 }
 @keyframes seal-ripple {
-  from { transform: scale(0.9); opacity: 0.7; }
-  to { transform: scale(1.7); opacity: 0; }
+  from { transform: scale(0.95); opacity: 0.8; }
+  to { transform: scale(1.6); opacity: 0; }
 }
 .seal-ripple {
-  border: 2px solid var(--color-gold-light);
-  box-shadow: 0 0 18px rgb(221 175 122 / 0.45);
+  fill: none;
+  stroke: var(--color-gold-light);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 6px rgb(221 175 122 / 0.55));
+  transform-origin: center;
   animation: seal-ripple 2.4s ease-out infinite;
 }
+
+/* Envelope Ganesh: each stroke's outline draws on, then the drawing fills; the diya flame flickers. */
+.ganesh-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ganesh-draw 0.9s ease-in-out forwards;
+}
+@keyframes ganesh-draw {
+  to { stroke-dashoffset: 0; }
+}
+.ganesh-fill,
+.ganesh-flame-fill {
+  opacity: 0;
+  animation: ganesh-fill 0.9s ease forwards;
+}
+.ganesh-fill { fill: currentColor; }
+@keyframes ganesh-fill {
+  to { opacity: 1; }
+}
+.ganesh-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flame-flicker 1.7s ease-in-out infinite;
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); filter: drop-shadow(0 0 4px rgb(255 170 60 / 0.65)); }
+  20% { transform: scale(0.93, 1.07) skewX(-3deg); filter: drop-shadow(0 0 7px rgb(255 160 50 / 0.85)); }
+  40% { transform: scale(1.04, 0.95) skewX(2deg); filter: drop-shadow(0 0 5px rgb(255 180 70 / 0.7)); }
+  60% { transform: scale(0.96, 1.09) skewX(-1.5deg); filter: drop-shadow(0 0 8px rgb(255 150 40 / 0.9)); }
+  80% { transform: scale(1.02, 0.97) skewX(2.5deg); filter: drop-shadow(0 0 5px rgb(255 175 65 / 0.7)); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .seal-pulse { animation: none; }
+  .seal-pulse, .ganesh-flame { animation: none; }
   .seal-ripple { display: none; }
 }
 
