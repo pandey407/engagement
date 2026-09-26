@@ -144,19 +144,6 @@ body {
   80% { transform: scale(1.02, 0.97) skewX(2.5deg); filter: drop-shadow(0 0 5px rgb(255 175 65 / 0.7)); }
 }
 
-/* DustText: the crisp text sits behind a hard-edged mask whose edge moves 0 → 100% of the line exactly as the
-   dust lands (mask is 200% wide, half opaque: position 100% hides all, 0% shows all, edge = linear in between). */
-.dust-reveal {
-  -webkit-mask: linear-gradient(90deg, #000 50%, transparent 50%) 100% 0 / 200% 100% no-repeat;
-  mask: linear-gradient(90deg, #000 50%, transparent 50%) 100% 0 / 200% 100% no-repeat;
-}
-.dust-reveal-run {
-  animation: dust-reveal 2s linear forwards;
-}
-@keyframes dust-reveal {
-  to { -webkit-mask-position: 0 0; mask-position: 0 0; }
-}
-
 /* Envelope sequence: the seam line scratches across, the seal drops in, then bounces to invite a tap. */
 .seam-line {
   transform: scaleX(0);
@@ -187,7 +174,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .seal-bounce, .ganesh-flame { animation: none; }
   .seam-line { transform: none; }
-  .dust-reveal { -webkit-mask: none; mask: none; }
   .seal-ripple { display: none; }
 }
 

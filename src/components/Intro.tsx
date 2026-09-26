@@ -68,7 +68,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-5 px-5 pt-[min(19vw,5rem)] text-center">
           <DustText
             lines={invite.shloka}
-            className="font-display text-lg leading-relaxed text-gold-light sm:text-2xl"
+            className="font-display text-[min(5.3vw,1.25rem)] leading-relaxed text-gold-light sm:text-3xl"
             onDone={() => setPhase((p) => (p === 'writing' ? 'invocation' : p))}
           />
           <p className={`font-display text-xl text-gold-light transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
