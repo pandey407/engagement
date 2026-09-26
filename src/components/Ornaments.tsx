@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import ganeshUrl from '../assets/ganesh.svg'
+import dividerUrl from '../assets/divider/divider.webp'
 import lotusUrl from '../assets/lotus/lotus.webp'
 import sealUrl from '../assets/seal/seal.webp'
 
@@ -44,15 +45,16 @@ export function LotusGlyph({ className = '' }: { className?: string }) {
   )
 }
 
+// Painted lotus divider with gold vines (our generated art, cut out by scripts/cut-divider.py).
 export function Divider({ className = '' }: { className?: string }) {
   return (
-    <div className={`flex items-center justify-center gap-2 ${className}`} aria-hidden>
-      <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold" />
-      <span className="size-1 rotate-45 bg-gold" />
-      <LotusGlyph className="w-9" />
-      <span className="size-1 rotate-45 bg-gold" />
-      <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold" />
-    </div>
+    <img
+      src={dividerUrl}
+      alt=""
+      aria-hidden
+      draggable={false}
+      className={`pointer-events-none mx-auto w-[min(80vw,20rem)] select-none ${className}`}
+    />
   )
 }
 

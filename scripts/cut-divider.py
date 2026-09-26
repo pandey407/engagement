@@ -3,8 +3,9 @@
 # Output: src/assets/divider/divider.webp (transparent).
 from PIL import Image, ImageFilter
 import numpy as np
+from collections import deque
 
-SRC, OUT, WIDTH = 'design/divider.png', 'src/assets/divider/divider.webp', 1400
+SRC, OUT, WIDTH = 'design/divider.jpeg', 'src/assets/divider/divider.webp', 1400
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)
 # Paper colour varies with the texture, so estimate it locally with a wide median-ish blur.
@@ -23,11 +24,33 @@ op = (alpha > 0.3).astype(np.int32); K = 9
 c = np.pad(op, K // 2).cumsum(0).cumsum(1); c = np.pad(c, ((1, 0), (1, 0)))
 cnt = c[K:, K:] - c[:-K, K:] - c[K:, :-K] + c[:-K, :-K]
 alpha = np.where(cnt < 6, 0, alpha)
+# Work on the band only (fast), then fill pale petal areas: small see-through pockets fully enclosed
+# by outlines become opaque; the thin crescents between the gold vines, and anything larger than POCKET px,
+# stay transparent.
+POCKET = 6000
+ys, xs = np.where(alpha > 0.15)
+y0, y1, x0, x1 = ys.min() - 6, ys.max() + 7, xs.min() - 6, xs.max() + 7
+a, paper, alpha = a[y0:y1, x0:x1], paper[y0:y1, x0:x1], alpha[y0:y1, x0:x1]
+low = (alpha < 0.5).tolist(); H, W = len(low), len(low[0])
+seen = [[False] * W for _ in range(H)]
+for sy in range(H):
+    for sx in range(W):
+        if low[sy][sx] and not seen[sy][sx]:
+            seen[sy][sx] = True; q = deque([(sy, sx)]); pts = []; edge = False
+            while q:
+                y, x = q.popleft(); pts.append((y, x))
+                if y in (0, H - 1) or x in (0, W - 1): edge = True
+                for ny, nx in ((y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)):
+                    if 0 <= ny < H and 0 <= nx < W and low[ny][nx] and not seen[ny][nx]:
+                        seen[ny][nx] = True; q.append((ny, nx))
+            if not edge and len(pts) < POCKET:
+                py, px = zip(*pts)
+                h, w = max(py) - min(py) + 1, max(px) - min(px) + 1
+                if h >= 0.3 * w:  # compact pocket = petal; long thin crescent = gap between vine and line
+                    alpha[list(py), list(px)] = 1.0
 al = np.maximum(alpha, 1e-3)[..., None]
 rgb = np.clip((a - (1 - al) * paper) / al, 0, 255)
 out = Image.fromarray(np.dstack([rgb, alpha * 255]).astype(np.uint8))
-bbox = out.getchannel('A').point(lambda v: 255 if v > 40 else 0).getbbox()
-out = out.crop((bbox[0] - 4, bbox[1] - 4, bbox[2] + 4, bbox[3] + 4))
 out = out.resize((WIDTH, round(out.height * WIDTH / out.width)), Image.LANCZOS)
 out.save(OUT, 'WEBP', quality=92, method=6)
 print(OUT, im.size, '->', out.size)

@@ -34,3 +34,4 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
 - `src/assets/frame/arch-{top,mid,bottom}.webp`: our generated arched lotus card (`design/frame-arch-hires.jpeg`), cut out and sliced (top / stretchable middle / bottom) by `scripts/cut-frame.py`.
 - Dividers, border pattern: hand-drawn SVG in `src/components/Ornaments.tsx`.
 - `src/assets/seal/seal.webp`: our generated lotus wax seal (`design/seal.jpg`), cut out by `scripts/cut-seal.py`.
+- `src/assets/divider/divider.webp`: our generated lotus-and-gold-vine divider (`design/divider.jpeg`), cut out by `scripts/cut-divider.py`.
