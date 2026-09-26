@@ -51,5 +51,5 @@ export const invite = {
 
   // ── Closing card ───────────────────────────────────────────────────────────────────
   closing: { np: 'यहाँहरूको उपस्थिति नै हाम्रो लागि सबैभन्दा ठूलो उपहार हो।', en: 'Your presence is the greatest gift.' },
-  familyLine: { np: 'विनीत: पाण्डे परिवार', en: 'With love, the Pandey family' },
+  familyLine: { np: 'विनीत: आरुषा र अश्लेष', en: 'With love, Aarusha & Ashlesh' }, // signed by the two of us
 }
