@@ -18,7 +18,7 @@ export const invite = {
   openLabel: 'Open invitation', // read out by screen readers for the seal button
 
   // ── Name card ──────────────────────────────────────────────────────────────────────
-  // Aarusha is named first everywhere (names, WhatsApp message, page title).
+  // Aarusha is named first everywhere (names, page title, link preview).
   partnerOne: { np: 'आरुषा', en: 'Aarusha' },
   partnerTwo: { np: 'आश्लेष', en: 'Ashlesh' },
   and: { np: 'र', en: '&' }, // between the two names
@@ -46,17 +46,6 @@ export const invite = {
     // Google Maps → Share → Copy link (tapping the venue name opens this)
     mapLink: 'https://maps.google.com/?q=Kathmandu',
     mapTitle: 'Map to the venue', // read out by screen readers
-  },
-
-  // ── RSVP (the whole section stays hidden until formUrl or whatsapp is filled in) ─────
-  rsvp: {
-    heading: { np: 'तपाईं आउनुहुन्छ?', en: 'Will you join us?' },
-    deadline: 'कृपया मङ्सिर १५ भित्र जानकारी दिनुहोला।',
-    formUrl: '', // e.g. a Google Form link
-    formButton: 'जानकारी दिनुहोस् · RSVP',
-    whatsapp: '', // international format, digits only, e.g. '9779800000000'
-    whatsappButton: 'WhatsApp',
-    whatsappMessage: 'नमस्ते! आरुषा र आश्लेषको शुभ सगाईमा म आउँदैछु।', // pre-filled message guests send
   },
 
   // ── Closing card ───────────────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Intro } from './components/Intro'
 import { Petals } from './components/Petals'
-import { Closing, Details, Hero, Rsvp } from './components/Sections'
+import { Closing, Details, Hero } from './components/Sections'
 import { revealOnScroll, startSmoothScroll } from './lib/motion'
 
 export default function App() {
@@ -27,7 +27,6 @@ export default function App() {
       <main ref={main} className={opened ? '' : 'h-svh overflow-hidden'}>
         <Hero />
         <Details />
-        <Rsvp />
         <Closing />
       </main>
     </>

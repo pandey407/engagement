@@ -136,36 +136,6 @@ export function Details() {
   )
 }
 
-export function Rsvp() {
-  const { formUrl, whatsapp, deadline, heading, formButton, whatsappButton } = invite.rsvp
-  if (!formUrl && !whatsapp) return null
-  const message = encodeURIComponent(invite.rsvp.whatsappMessage)
-  const button = 'rounded-full px-8 py-3 text-base transition-colors'
-  return (
-    <Section>
-      <Heading {...heading} />
-      <p data-reveal className="mb-8 text-base text-ink/70">{deadline}</p>
-      <div data-reveal className="flex flex-wrap justify-center gap-4">
-        {formUrl && (
-          <a href={formUrl} target="_blank" rel="noreferrer" className={`${button} bg-maroon text-cream hover:bg-maroon-deep`}>
-            {formButton}
-          </a>
-        )}
-        {whatsapp && (
-          <a
-            href={`https://wa.me/${whatsapp}?text=${message}`}
-            target="_blank"
-            rel="noreferrer"
-            className={`${button} border border-maroon text-maroon hover:bg-maroon hover:text-cream`}
-          >
-            {whatsappButton}
-          </a>
-        )}
-      </div>
-    </Section>
-  )
-}
-
 export function Closing() {
   return (
     <footer className="relative overflow-hidden pt-16 text-center">

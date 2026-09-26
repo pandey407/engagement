@@ -4,10 +4,12 @@ Live at **https://invite.ashleshpandey.com.np**, hosted on GitHub Pages from `pa
 
 ## Edit the invite
 
-**All text is in one file: `src/content.ts`** — names, blessing, date, time, venue and map links, RSVP,
+**All text is in one file: `src/content.ts`** — names, blessing, date, time, venue and map links,
 closing lines, the envelope shloka, section headings, and the page title / link-preview text
 (filled into `index.html` at build time).
-Add a 1200×630 `public/thumbnail.png` for WhatsApp/Messenger link previews.
+The WhatsApp/Messenger link preview is `public/thumbnail.png` (1200×630), generated from `src/content.ts`:
+run `python3 scripts/save-preview.py &`, `node scripts/make-preview.mjs`, then open http://localhost:5173/preview/
+with `npm run dev` running.
 
 ```bash
 npm install
