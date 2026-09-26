@@ -1,17 +1,29 @@
-import { useRef, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import paperUrl from '../assets/envelope/paper.webp'
-import { invite } from '../content'
 import sealOutline from '../assets/seal/outline.svg?raw'
+import { invite } from '../content'
+import { gsap, prefersReducedMotion } from '../lib/motion'
+import { DustText } from './DustText'
 import { GaneshDraw } from './GaneshDraw'
 import { Seal } from './Ornaments'
-import { gsap, prefersReducedMotion } from '../lib/motion'
 
 const outlinePath = sealOutline.match(/ d="([^"]+)"/)?.[1] ?? ''
 const outlineView = sealOutline.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 100 100'
 
-// Shloka writing timing (seconds): starts while Ganesh is being drawn, one line after another.
-const WRITE_START = 0.8
-const WRITE_LINE = 2.6
+// Opening sequence (after Ganesh is drawn and the shloka has formed from dust):
+// invocation fades in → a gold line scratches across the seam → the seal appears → it bounces and becomes tappable.
+type Phase = 'writing' | 'invocation' | 'scratch' | 'seal' | 'ready'
+const NEXT: Record<Phase, [Phase, number] | null> = {
+  writing: null, // advanced by the shloka's onDone
+  invocation: ['scratch', 900],
+  scratch: ['seal', 900],
+  seal: ['ready', 700],
+  ready: null,
+}
+const at = (phase: Phase, from: Phase) => {
+  const order: Phase[] = ['writing', 'invocation', 'scratch', 'seal', 'ready']
+  return order.indexOf(phase) >= order.indexOf(from)
+}
 
 // Full-screen "envelope" the guest taps to open the invite.
 export function Intro({ onOpen }: { onOpen: () => void }) {
@@ -20,8 +32,17 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
   const bottom = useRef<HTMLDivElement>(null)
   const content = useRef<HTMLDivElement>(null)
   const seal = useRef<HTMLButtonElement>(null)
+  const [phase, setPhase] = useState<Phase>(() => (prefersReducedMotion() ? 'ready' : 'writing'))
+
+  useEffect(() => {
+    const next = NEXT[phase]
+    if (!next) return
+    const id = setTimeout(() => setPhase(next[0]), next[1])
+    return () => clearTimeout(id)
+  }, [phase])
 
   const open = () => {
+    if (phase !== 'ready') return
     if (prefersReducedMotion()) return onOpen()
     gsap
       .timeline({ onComplete: onOpen })
@@ -34,41 +55,50 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
 
   return (
     <div ref={root} className="fixed inset-0 z-50 overflow-hidden" style={{ '--paper': `url(${paperUrl})` } as CSSProperties}>
-      {/* Two envelope halves; the gold edges meet at the seam where the seal sits. */}
-      <div ref={top} className="envelope-flap absolute inset-x-0 top-0 h-1/2 border-b border-gold-light/60 shadow-[0_2px_10px_rgb(0_0_0/0.25)]" />
-      <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2 border-t border-gold-light/30" />
+      <div ref={top} className="envelope-flap absolute inset-x-0 top-0 h-1/2" />
+      <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2" />
 
       <div ref={content} className="text-cream">
-        {/* Top flap: Ganesh. Bottom flap: shloka and invocation, below the seal. */}
+        {/* Top flap: Ganesh draws himself. */}
         <div className="absolute inset-x-0 top-0 flex h-1/2 items-center justify-center pb-[min(19vw,5rem)]">
           <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
         </div>
-        <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-4 px-6 pt-[min(19vw,5rem)] text-center">
-          {/* The shloka is "written" line by line like a sacred text, then the invocation appears. */}
-          <p className="font-display text-base leading-relaxed text-gold-light/90 sm:text-lg">
-            {invite.shloka.map((line, i) => (
-              <span key={line} className="write-line" style={{ '--write-delay': `${WRITE_START + i * WRITE_LINE}s` } as CSSProperties}>
-                {line}
-              </span>
-            ))}
-          </p>
-          <p className="write-after font-display text-xl text-gold-light" style={{ animationDelay: `${WRITE_START + invite.shloka.length * WRITE_LINE}s` }}>
+
+        {/* Bottom flap: the shloka forms from gold dust, then the invocation. */}
+        <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-5 px-5 pt-[min(19vw,5rem)] text-center">
+          <DustText
+            lines={invite.shloka}
+            className="font-display text-lg leading-relaxed text-gold-light sm:text-2xl"
+            onDone={() => setPhase((p) => (p === 'writing' ? 'invocation' : p))}
+          />
+          <p className={`font-display text-xl text-gold-light transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
             {invite.invocation}
           </p>
         </div>
+
+        {/* The seam: a gold line scratches across the envelope before the seal is placed. */}
+        <div
+          aria-hidden
+          className={`seam-line absolute inset-x-0 top-1/2 h-px origin-left bg-gold-light/80 ${at(phase, 'scratch') ? 'seam-line-drawn' : ''}`}
+        />
       </div>
 
       <button
         ref={seal}
         onClick={open}
+        disabled={phase !== 'ready'}
         aria-label={invite.openLabel}
-        className="absolute top-1/2 left-1/2 cursor-pointer w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
+        className={`absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] ${
+          phase === 'ready' ? 'cursor-pointer' : 'pointer-events-none'
+        } ${at(phase, 'seal') ? 'seal-enter' : 'opacity-0'}`}
       >
-        {/* Gold rings shaped like the seal's wavy edge ripple outwards, and the seal pulses, to invite a tap. */}
-        <svg aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
-          <path className="seal-ripple" d={outlinePath} />
-        </svg>
-        <Seal className="seal-pulse relative w-full" />
+        {/* Once ready: rings shaped like the seal's wavy edge ripple out, and the seal bounces. */}
+        {phase === 'ready' && (
+          <svg aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
+            <path className="seal-ripple" d={outlinePath} />
+          </svg>
+        )}
+        <Seal className={`relative w-full ${phase === 'ready' ? 'seal-bounce' : ''}`} />
       </button>
     </div>
   )

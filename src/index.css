@@ -94,15 +94,7 @@ body {
   filter: drop-shadow(0 18px 30px rgb(74 10 24 / 0.25));
 }
 
-/* Envelope seal: slow pulse + expanding gold rings (traced to the seal's wavy edge) to show it can be pressed. */
-@keyframes seal-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-.seal-pulse {
-  animation: seal-pulse 2.4s ease-in-out infinite;
-}
-/* One ring every 4s: it expands over the first 60%, then a calm pause. */
+/* Envelope seal: gold rings (traced to the seal's wavy edge) ripple out once it is ready. */
 @keyframes seal-ripple {
   0% { transform: scale(0.95); opacity: 0.8; }
   60%, 100% { transform: scale(1.6); opacity: 0; }
@@ -152,52 +144,50 @@ body {
   80% { transform: scale(1.02, 0.97) skewX(2.5deg); filter: drop-shadow(0 0 5px rgb(255 175 65 / 0.7)); }
 }
 
-/* Shloka written like ink on a sacred text: a feathered mask sweeps each line left to right,
-   with a small glowing nib at the writing edge. (Whole lines, so Devanagari conjuncts stay intact.) */
-.write-line {
-  position: relative;
-  display: block;
-  width: fit-content;
-  margin-inline: auto;
-  -webkit-mask: linear-gradient(90deg, #000 45%, transparent 55%) 100% 0 / 220% 100% no-repeat;
-  mask: linear-gradient(90deg, #000 45%, transparent 55%) 100% 0 / 220% 100% no-repeat;
-  animation: write-ink 2.4s linear var(--write-delay, 0s) forwards;
+/* DustText: the crisp text sits behind a hard-edged mask whose edge moves 0 → 100% of the line exactly as the
+   dust lands (mask is 200% wide, half opaque: position 100% hides all, 0% shows all, edge = linear in between). */
+.dust-reveal {
+  -webkit-mask: linear-gradient(90deg, #000 50%, transparent 50%) 100% 0 / 200% 100% no-repeat;
+  mask: linear-gradient(90deg, #000 50%, transparent 50%) 100% 0 / 200% 100% no-repeat;
 }
-@keyframes write-ink {
+.dust-reveal-run {
+  animation: dust-reveal 2s linear forwards;
+}
+@keyframes dust-reveal {
   to { -webkit-mask-position: 0 0; mask-position: 0 0; }
 }
-.write-line::after {
-  content: '';
-  position: absolute;
-  top: 45%;
-  left: -10%;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #fff3d1;
-  box-shadow: 0 0 10px 3px rgb(255 205 120 / 0.8);
-  opacity: 0;
-  animation: write-nib 2.4s linear var(--write-delay, 0s) forwards;
+
+/* Envelope sequence: the seam line scratches across, the seal drops in, then bounces to invite a tap. */
+.seam-line {
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgb(221 175 122 / 0.8);
 }
-@keyframes write-nib {
-  0% { left: -10%; opacity: 0; }
-  8% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { left: 110%; opacity: 0; }
+.seam-line-drawn {
+  animation: seam-scratch 0.9s cubic-bezier(0.6, 0, 0.2, 1) forwards;
 }
-.write-after {
-  opacity: 0;
-  animation: write-after 1.2s ease forwards;
+@keyframes seam-scratch {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
-@keyframes write-after {
-  from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
-  to { opacity: 1; transform: none; filter: none; }
+.seal-enter {
+  animation: seal-enter 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes seal-enter {
+  from { opacity: 0; scale: 0.3; rotate: -25deg; }
+  to { opacity: 1; scale: 1; rotate: 0deg; }
+}
+.seal-bounce {
+  animation: seal-pulse 2.4s ease-in-out infinite;
+}
+@keyframes seal-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .seal-pulse, .ganesh-flame { animation: none; }
-  .write-line { -webkit-mask: none; mask: none; animation: none; }
-  .write-line::after { display: none; }
+  .seal-bounce, .ganesh-flame { animation: none; }
+  .seam-line { transform: none; }
+  .dust-reveal { -webkit-mask: none; mask: none; }
   .seal-ripple { display: none; }
 }
 
