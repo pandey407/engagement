@@ -1,4 +1,5 @@
-import { useRef } from 'react'
+import { useRef, type CSSProperties } from 'react'
+import paperUrl from '../assets/envelope/paper.webp'
 import { invite } from '../config'
 import { Ganesh, Seal } from './Ornaments'
 import { gsap, prefersReducedMotion } from '../lib/motion'
@@ -23,14 +24,14 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
   }
 
   return (
-    <div ref={root} className="fixed inset-0 z-50 overflow-hidden">
+    <div ref={root} className="fixed inset-0 z-50 overflow-hidden" style={{ '--paper': `url(${paperUrl})` } as CSSProperties}>
       {/* Two envelope halves; the gold edges meet at the seam where the seal sits. */}
-      <div ref={top} className="velvet absolute inset-x-0 top-0 h-1/2 border-b border-gold-light/60 shadow-[0_2px_10px_rgb(0_0_0/0.25)]" />
-      <div ref={bottom} className="velvet velvet-deep absolute inset-x-0 bottom-0 h-1/2 border-t border-gold-light/30" />
+      <div ref={top} className="envelope-flap absolute inset-x-0 top-0 h-1/2 border-b border-gold-light/60 shadow-[0_2px_10px_rgb(0_0_0/0.25)]" />
+      <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2 border-t border-gold-light/30" />
 
       <div ref={content} className="text-cream">
         <div className="absolute inset-x-0 top-0 flex h-1/2 flex-col items-center justify-center gap-3 px-6 pb-[min(19vw,5rem)] text-center">
-          <Ganesh className="w-[min(34vw,9rem)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
+          <Ganesh className="w-[min(34vw,9rem,18svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
           <p className="mt-2 font-display text-2xl text-gold-light">{invite.invocation}</p>
           <p className="text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
         </div>
