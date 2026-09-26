@@ -7,7 +7,7 @@ import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../content'
 import { useLang, type Pair } from '../lib/lang'
-import { Band, Cloud, Couple, Divider } from './Ornaments'
+import { Band, Cloud, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
@@ -51,9 +51,8 @@ export function Hero() {
         <div className="arch-card absolute inset-0 -z-10" />
         <p data-reveal className="font-display text-base text-maroon">{invite.invocation}</p>
         <p data-reveal className="mt-2 font-display text-2xl text-lotus">{t(invite.occasion)}</p>
-        <Couple className="mt-5 w-[48%] drop-shadow-[0_10px_14px_rgb(119_20_42/0.12)]" />
 
-        <h1 data-reveal className="mt-4 font-display text-4xl leading-tight text-maroon sm:text-5xl">
+        <h1 data-reveal className="mt-6 font-display text-4xl leading-tight text-maroon sm:text-5xl">
           {t(invite.partnerOne)}
           <span className="block text-2xl text-gold">{t(invite.and)}</span>
           {t(invite.partnerTwo)}

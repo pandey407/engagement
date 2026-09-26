@@ -5,7 +5,6 @@ import cloud1 from '../assets/clouds/cloud-1.webp'
 import cloud2 from '../assets/clouds/cloud-2.webp'
 import cloud3 from '../assets/clouds/cloud-3.webp'
 import borderTile from '../assets/border/tile.webp'
-import coupleUrl from '../assets/couple/couple.webp'
 import dividerUrl from '../assets/divider/divider.webp'
 import sealUrl from '../assets/seal/seal.webp'
 
@@ -49,9 +48,4 @@ export function Seal({ className = '' }: { className?: string }) {
 const clouds = [cloud1, cloud2, cloud3]
 export function Cloud({ n, className = '' }: { n: 1 | 2 | 3; className?: string }) {
   return <img src={clouds[n - 1]} alt="" aria-hidden draggable={false} className={`drift pointer-events-none select-none ${className}`} />
-}
-
-// The two of us: black suit and golden sari (our generated art, cut out by scripts/cut-couple.py).
-export function Couple({ className = '' }: { className?: string }) {
-  return <img src={coupleUrl} alt="" aria-hidden draggable={false} className={`pointer-events-none select-none ${className}`} />
 }
