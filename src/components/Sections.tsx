@@ -1,7 +1,6 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { invite } from '../config'
 import { art, type ArtName } from '../lib/art'
-import { PatanSkyline } from './Art'
 
 const NP_DIGITS = '०१२३४५६७८९'
 const toNepaliDigits = (s: string) => s.replace(/\d/g, (d) => NP_DIGITS[Number(d)])
@@ -79,32 +78,6 @@ export function Hero() {
         </div>
       </div>
     </header>
-  )
-}
-
-export function Story() {
-  const { story } = invite
-  return (
-    <section className="relative overflow-hidden pt-20 text-center">
-      <Ornament name="blossom-branch" className="absolute top-6 -left-8 w-32 opacity-80 sm:w-44" />
-      <Ornament name="blossom-sprig" className="absolute top-6 -right-6 w-28 -scale-x-100 opacity-80 sm:w-40" />
-      <div className="relative mx-auto max-w-2xl px-6">
-        <Heading np={story.heading.np} en={story.heading.en} />
-        <p data-reveal className="font-display text-3xl text-lotus">{story.place.np}</p>
-        <div data-reveal className="mb-6">
-          <Sub>{story.place.en}</Sub>
-        </div>
-        <p data-reveal className="text-lg leading-relaxed text-ink/80">{story.np}</p>
-        <div data-reveal className="mt-2">
-          <Sub>{story.en}</Sub>
-        </div>
-      </div>
-      <div className="relative mx-auto mt-10 w-[160%] max-w-none -translate-x-[18.75%] sm:w-full sm:max-w-5xl sm:translate-x-0">
-        <Ornament name="clouds" className="drift absolute top-0 left-[8%] w-[45%] opacity-80" />
-        <Ornament name="clouds" className="drift absolute top-[12%] right-[4%] w-[35%] -scale-x-100 opacity-60 [animation-delay:-7s]" />
-        <PatanSkyline className="relative block w-full pt-[8%]" />
-      </div>
-    </section>
   )
 }
 
