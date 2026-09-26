@@ -28,7 +28,7 @@ function Heading({ text }: { text: Pair }) {
 }
 
 export function Hero() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
   return (
     <header className="relative min-h-svh overflow-hidden pb-16">
       <Band />
@@ -52,9 +52,12 @@ export function Hero() {
         <p data-reveal className="font-display text-base text-maroon">{invite.invocation}</p>
         <p data-reveal className="mt-2 font-display text-2xl text-lotus">{t(invite.occasion)}</p>
 
-        <h1 data-reveal className="mt-6 font-display text-4xl leading-tight text-maroon sm:text-5xl">
+        <h1
+          data-reveal
+          className={`mt-6 font-names leading-tight text-maroon ${lang === 'en' ? 'text-5xl sm:text-6xl' : 'text-4xl font-bold sm:text-5xl'}`}
+        >
           {t(invite.partnerOne)}
-          <span className="block text-2xl text-gold">{t(invite.and)}</span>
+          <span className={`block text-gold ${lang === 'en' ? 'text-3xl' : 'text-2xl'}`}>{t(invite.and)}</span>
           {t(invite.partnerTwo)}
         </h1>
 
