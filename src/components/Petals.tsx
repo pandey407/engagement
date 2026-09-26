@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react'
 import { gsap, prefersReducedMotion } from '../lib/motion'
 
 // Falling lotus (कमल) petals. Swap the SVG for your own flower PNGs later.
-export function Petals({ count = 14 }: { count?: number }) {
+// More petals on wider screens so the density feels the same.
+const defaultCount = () => (window.innerWidth >= 1024 ? 48 : window.innerWidth >= 640 ? 38 : 30)
+
+export function Petals({ count = defaultCount() }: { count?: number }) {
   const root = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -18,7 +21,7 @@ export function Petals({ count = 14 }: { count?: number }) {
               x: `+=${gsap.utils.random(-120, 120)}`,
               rotation: `+=${gsap.utils.random(180, 540)}`,
               duration: gsap.utils.random(8, 14),
-              delay: gsap.utils.random(0, 8),
+              delay: gsap.utils.random(0, 6),
               ease: 'none',
               onComplete: fall,
             },
@@ -32,7 +35,7 @@ export function Petals({ count = 14 }: { count?: number }) {
   return (
     <div ref={root} aria-hidden className="pointer-events-none fixed inset-0 z-10 overflow-hidden">
       {Array.from({ length: count }, (_, i) => (
-        <svg key={i} className={`petal absolute top-0 left-0 size-4 ${i % 3 ? 'text-blush' : 'text-lotus/70'}`} viewBox="0 0 20 20">
+        <svg key={i} className={`petal absolute top-0 left-0 ${['size-3', 'size-4', 'size-5'][i % 3]} ${i % 4 ? 'text-blush' : 'text-lotus/70'}`} viewBox="0 0 20 20">
           <path fill="currentColor" d="M10 0C14 5 16 10 10 20 4 10 6 5 10 0Z" />
         </svg>
       ))}

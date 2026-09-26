@@ -6,7 +6,7 @@ import maroonBottom from '../assets/frame/maroon-bottom.webp'
 import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../config'
-import { Band, Divider } from './Ornaments'
+import { Band, Cloud, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
@@ -34,6 +34,10 @@ export function Hero() {
   return (
     <header className="relative min-h-svh overflow-hidden pb-16">
       <Band />
+      {/* Drifting clouds fill the sides (large on desktop, peeking in from the edges on phones). */}
+      <Cloud n={1} className="absolute top-[8%] -left-[18%] w-[45vw] max-w-[26rem] opacity-90 sm:left-[2%] sm:w-[30vw]" />
+      <Cloud n={2} className="absolute top-[34%] -right-[20%] w-[42vw] max-w-[22rem] opacity-90 [animation-delay:-5s] sm:right-[3%] sm:w-[26vw]" />
+      <Cloud n={3} className="absolute top-[64%] -left-[16%] w-[36vw] max-w-[18rem] opacity-80 [animation-delay:-9s] sm:left-[6%] sm:w-[20vw]" />
       <div
         className="relative mx-auto mt-10 flex flex-col items-center px-[calc(var(--w)*0.13)] pt-[calc(var(--w)*0.5)] pb-[calc(var(--w)*0.4)] text-center"
         style={
@@ -89,8 +93,10 @@ function Label({ np, en }: { np: string; en: string }) {
 export function Details() {
   const { venue } = invite
   return (
-    <Section className="max-w-none bg-paper/40">
-      <div className="flex w-full max-w-2xl flex-col items-center">
+    <Section className="max-w-none overflow-hidden bg-paper/40">
+      <Cloud n={3} className="absolute top-10 -right-[12%] hidden w-[22vw] max-w-[18rem] opacity-70 lg:block" />
+      <Cloud n={2} className="absolute bottom-16 -left-[10%] hidden w-[24vw] max-w-[20rem] opacity-70 [animation-delay:-6s] lg:block" />
+      <div className="relative flex w-full max-w-2xl flex-col items-center">
         <Heading np="शुभ साइत" en="When & where" />
 
         <div data-reveal className="grid w-full grid-cols-2 divide-x divide-gold/40 text-center">
