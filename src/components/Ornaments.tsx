@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 import ganeshUrl from '../assets/ganesh.svg'
 import dividerUrl from '../assets/divider/divider.webp'
-import lotusUrl from '../assets/lotus/lotus.webp'
 import sealUrl from '../assets/seal/seal.webp'
 
 // Our Ganesh line art, drawn as a CSS mask so it takes the current text colour.
@@ -13,19 +12,6 @@ export function Ganesh({ className = '' }: { className?: string }) {
       aria-label="श्री गणेश"
       className={`block aspect-[361/437] bg-current ${className}`}
       style={{ mask, WebkitMask: mask } as CSSProperties}
-    />
-  )
-}
-
-// Blush-tinted 19th-century lotus watercolour (NGA, CC0).
-export function Lotus({ className = '', flip = false }: { className?: string; flip?: boolean }) {
-  return (
-    <img
-      src={lotusUrl}
-      alt=""
-      aria-hidden
-      draggable={false}
-      className={`pointer-events-none select-none ${flip ? '-scale-x-100' : ''} ${className}`}
     />
   )
 }

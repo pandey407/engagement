@@ -2,8 +2,11 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import archBottom from '../assets/frame/arch-bottom.webp'
 import archMid from '../assets/frame/arch-mid.webp'
 import archTop from '../assets/frame/arch-top.webp'
+import maroonBottom from '../assets/frame/maroon-bottom.webp'
+import maroonMid from '../assets/frame/maroon-mid.webp'
+import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../config'
-import { Band, Divider, Lotus } from './Ornaments'
+import { Band, Divider } from './Ornaments'
 
 const NP_DIGITS = '०१२३४५६७८९'
 const toNepaliDigits = (s: string) => s.replace(/\d/g, (d) => NP_DIGITS[Number(d)])
@@ -199,18 +202,26 @@ export function Rsvp() {
 
 export function Closing() {
   return (
-    <footer className="velvet relative overflow-hidden text-center text-cream">
-      <div className="relative px-6 pt-20 pb-64 sm:pb-72">
-        <p data-reveal className="mx-auto max-w-xl font-display text-3xl leading-snug">{invite.closing.np}</p>
-        <p data-reveal className="mt-3 text-sm text-cream/60">{invite.closing.en}</p>
-        <p data-reveal className="mt-10 font-display text-2xl text-gold-light">{invite.familyLine.np}</p>
-        <p data-reveal className="mt-1 text-sm text-cream/60">{invite.familyLine.en}</p>
+    <footer className="relative overflow-hidden pt-16 text-center">
+      <div
+        className="relative mx-auto mb-16 flex flex-col items-center px-[calc(var(--w)*0.12)] pt-[calc(var(--w)*0.5)] pb-[calc(var(--w)*0.72)] text-cream"
+        style={
+          {
+            '--w': 'min(88vw, 26rem)',
+            width: 'var(--w)',
+            '--top': `url(${maroonTop})`,
+            '--mid': `url(${maroonMid})`,
+            '--bottom': `url(${maroonBottom})`,
+          } as CSSProperties
+        }
+      >
+        <div className="maroon-card absolute inset-0 -z-10" />
+        <p data-reveal className="font-display text-xl leading-snug sm:text-3xl">{invite.closing.np}</p>
+        <p data-reveal className="mt-2 text-sm text-cream/65">{invite.closing.en}</p>
+        <p data-reveal className="mt-5 font-display text-lg text-gold-light sm:text-2xl">{invite.familyLine.np}</p>
+        <p data-reveal className="mt-1 text-sm text-cream/65">{invite.familyLine.en}</p>
       </div>
-      <Lotus className="absolute -bottom-24 -left-16 w-64 sm:w-80" />
-      <Lotus flip className="absolute -right-16 -bottom-28 w-56 sm:w-72" />
-      <div className="relative">
-        <Band />
-      </div>
+      <Band />
     </footer>
   )
 }

@@ -77,6 +77,16 @@ body {
   filter: drop-shadow(0 18px 30px rgb(119 20 42 / 0.12));
 }
 
+/* Maroon arched card (src/assets/frame/maroon-*.webp, 574 x 880 source), same 3-slice idea as .arch-card. */
+.maroon-card {
+  --s: calc(var(--w) / 574);
+  background:
+    var(--top) top / 100% auto no-repeat,
+    var(--bottom) bottom / 100% auto no-repeat,
+    var(--mid) 0 calc(352 * var(--s)) / 100% calc(100% - 740 * var(--s)) no-repeat;
+  filter: drop-shadow(0 18px 30px rgb(74 10 24 / 0.25));
+}
+
 @keyframes drift {
   from { transform: translateX(-4%); }
   to { transform: translateX(4%); }
