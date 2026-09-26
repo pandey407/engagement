@@ -64,19 +64,17 @@ body {
   background: var(--color-gold);
 }
 
-/* Painted lotus border strip, tiled horizontally. */
-.band {
-  height: 44px;
-  background: var(--band) repeat-x center / auto 100%;
-}
-
-/* Pink arch frame as a 9-slice layer behind the hero card: arch and lotus corners keep their shape, the sides stretch.
-   Slices are in source pixels of frame-pink.webp (696 x 1020); --s scales them to the box width. */
-.arch-frame {
-  --s: calc(var(--w) / 696);
-  border-style: solid;
-  border-width: calc(560 * var(--s)) calc(210 * var(--s)) calc(390 * var(--s));
-  border-image: var(--frame) 560 210 390 fill / calc(560 * var(--s)) calc(210 * var(--s)) calc(390 * var(--s)) stretch;
+/* Arched lotus card built from three slices of src/assets/frame (890 px wide source):
+   the arch top (520px) and lotus foot (567px) keep their shape; the plain paper band between them
+   stretches to fit the text. Top/foot have feathered edges that blend over the band, so there is no seam.
+   --s scales source pixels to the rendered width. */
+.arch-card {
+  --s: calc(var(--w) / 890);
+  background:
+    var(--top) top / 100% auto no-repeat,
+    var(--bottom) bottom / 100% auto no-repeat,
+    var(--mid) 0 calc(484 * var(--s)) / 100% calc(100% - 1001 * var(--s)) no-repeat; /* 484 = mid start, 1001 = 484 + (1597 - 1080) */
+  filter: drop-shadow(0 18px 30px rgb(119 20 42 / 0.12));
 }
 
 @keyframes drift {

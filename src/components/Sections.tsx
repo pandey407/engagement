@@ -1,6 +1,9 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import archBottom from '../assets/frame/arch-bottom.webp'
+import archMid from '../assets/frame/arch-mid.webp'
+import archTop from '../assets/frame/arch-top.webp'
 import { invite } from '../config'
-import { ArchCap, Band, Divider, Ganesh, Lotus } from './Ornaments'
+import { Band, Divider, Lotus } from './Ornaments'
 
 const NP_DIGITS = '०१२३४५६७८९'
 const toNepaliDigits = (s: string) => s.replace(/\d/g, (d) => NP_DIGITS[Number(d)])
@@ -29,37 +32,43 @@ function Sub({ children }: { children: ReactNode }) {
 
 export function Hero() {
   return (
-    <header className="relative min-h-svh overflow-hidden">
+    <header className="relative min-h-svh overflow-hidden pb-16">
       <Band />
-      <div className="relative mx-auto mt-12 mb-24 w-[min(86vw,28rem)]">
-        <Lotus className="absolute -bottom-16 -left-16 z-10 w-44 sm:-left-40 sm:w-72" />
-        <Lotus flip className="absolute -right-14 -bottom-20 z-10 w-36 sm:-right-32 sm:w-60" />
-        <ArchCap className="block aspect-[300/160] w-full" />
-        <div className="-mt-px flex flex-col items-center border-x-[1.5px] border-b-[1.5px] border-gold bg-cream/80 px-6 pb-44 text-center sm:pb-40">
-          <Ganesh className="-mt-[38%] w-[24%] text-maroon" />
-          <p data-reveal className="mt-3 font-display text-lg text-maroon">{invite.invocation}</p>
-          <p data-reveal className="mt-3 font-display text-3xl text-lotus">{invite.occasion.np}</p>
-          <p data-reveal className="text-[10px] tracking-[0.3em] text-gold uppercase">{invite.occasion.en}</p>
+      <div
+        className="relative mx-auto mt-10 flex flex-col items-center px-[calc(var(--w)*0.13)] pt-[calc(var(--w)*0.5)] pb-[calc(var(--w)*0.4)] text-center"
+        style={
+          {
+            '--w': 'min(90vw, 30rem)',
+            width: 'var(--w)',
+            '--top': `url(${archTop})`,
+            '--mid': `url(${archMid})`,
+            '--bottom': `url(${archBottom})`,
+          } as CSSProperties
+        }
+      >
+        <div className="arch-card absolute inset-0 -z-10" />
+        <p data-reveal className="font-display text-lg text-maroon">{invite.invocation}</p>
+        <p data-reveal className="mt-2 font-display text-3xl text-lotus">{invite.occasion.np}</p>
+        <p data-reveal className="text-[10px] tracking-[0.3em] text-gold uppercase">{invite.occasion.en}</p>
 
-          <h1 data-reveal className="mt-8 font-display text-5xl leading-tight text-maroon sm:text-6xl">
-            {invite.partnerOne.np}
-            <span className="block text-3xl text-gold">र</span>
-            {invite.partnerTwo.np}
-          </h1>
-          <p data-reveal className="mt-2 text-xs tracking-widest text-ink/60 uppercase">
-            {invite.partnerOne.en} &amp; {invite.partnerTwo.en}
-          </p>
+        <h1 data-reveal className="mt-6 font-display text-5xl leading-tight text-maroon sm:text-6xl">
+          {invite.partnerOne.np}
+          <span className="block text-3xl text-gold">र</span>
+          {invite.partnerTwo.np}
+        </h1>
+        <p data-reveal className="mt-2 text-xs tracking-widest text-ink/60 uppercase">
+          {invite.partnerOne.en} &amp; {invite.partnerTwo.en}
+        </p>
 
-          <Divider className="my-6" />
-          <p data-reveal className="text-base leading-relaxed text-ink/80">{invite.blessing.np}</p>
-          <div data-reveal className="mt-1">
-            <Sub>{invite.blessing.en}</Sub>
-          </div>
+        <Divider className="my-5" />
+        <p data-reveal className="text-base leading-relaxed text-ink/80">{invite.blessing.np}</p>
+        <div data-reveal className="mt-1">
+          <Sub>{invite.blessing.en}</Sub>
+        </div>
 
-          <p data-reveal className="mt-6 text-xl font-semibold text-maroon">{invite.dateLabel.np}</p>
-          <div data-reveal>
-            <Sub>{invite.dateLabel.en}</Sub>
-          </div>
+        <p data-reveal className="mt-5 text-xl font-semibold text-maroon">{invite.dateLabel.np}</p>
+        <div data-reveal>
+          <Sub>{invite.dateLabel.en}</Sub>
         </div>
       </div>
     </header>
@@ -192,7 +201,6 @@ export function Closing() {
   return (
     <footer className="velvet relative overflow-hidden text-center text-cream">
       <div className="relative px-6 pt-20 pb-64 sm:pb-72">
-        <Ganesh className="mx-auto mb-8 w-20 text-gold-light" />
         <p data-reveal className="mx-auto max-w-xl font-display text-3xl leading-snug">{invite.closing.np}</p>
         <p data-reveal className="mt-3 text-sm text-cream/60">{invite.closing.en}</p>
         <p data-reveal className="mt-10 font-display text-2xl text-gold-light">{invite.familyLine.np}</p>

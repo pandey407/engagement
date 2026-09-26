@@ -55,19 +55,6 @@ export function Divider({ className = '' }: { className?: string }) {
   )
 }
 
-// Cusped arch cap that sits on top of a bordered panel; its ends meet the panel's side borders.
-export function ArchCap({ className = '' }: { className?: string }) {
-  const outer = 'M1 159V120C1 92 24 80 44 76 52 52 74 40 96 42 108 20 128 8 150 1 172 8 192 20 204 42 226 40 248 52 256 76 276 80 299 92 299 120V159'
-  const inner = 'M9 159V121C9 98 29 88 50 84 58 62 78 50 100 51 112 31 130 19 150 12 170 19 188 31 200 51 222 50 242 62 250 84 271 88 291 98 291 121V159'
-  return (
-    <svg viewBox="0 0 300 160" preserveAspectRatio="none" className={className} aria-hidden>
-      <path d={`${outer}Z`} className="fill-cream/80" />
-      <path d={outer} className="fill-none stroke-gold" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-      <path d={inner} className="fill-none stroke-gold/60" strokeWidth="1" strokeDasharray="1 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-    </svg>
-  )
-}
-
 // Repeating lotus border band (vector tile).
 const bandTile = encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="56" height="28" viewBox="0 0 56 28">
