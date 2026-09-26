@@ -7,6 +7,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const top = useRef<HTMLDivElement>(null)
   const bottom = useRef<HTMLDivElement>(null)
+  const content = useRef<HTMLDivElement>(null)
   const seal = useRef<HTMLButtonElement>(null)
 
   const open = () => {
@@ -14,6 +15,7 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
     gsap
       .timeline({ onComplete: onOpen })
       .to(seal.current, { scale: 0, opacity: 0, duration: 0.4, ease: 'back.in(2)' })
+      .to(content.current, { autoAlpha: 0, duration: 0.3 }, '<0.1')
       .to(top.current, { yPercent: -100, duration: 1, ease: 'power3.inOut' }, '-=0.1')
       .to(bottom.current, { yPercent: 100, duration: 1, ease: 'power3.inOut' }, '<')
       .to(root.current, { autoAlpha: 0, duration: 0.2 })
@@ -21,19 +23,20 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
 
   return (
     <div ref={root} className="fixed inset-0 z-50 overflow-hidden">
-      <div ref={top} className="absolute inset-x-0 top-0 h-1/2 bg-maroon" />
+      <div ref={top} className="absolute inset-x-0 top-0 h-1/2 bg-sindoor" />
       <div ref={bottom} className="absolute inset-x-0 bottom-0 h-1/2 bg-maroon-deep" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center text-cream">
-        <p className="font-display text-lg italic opacity-80">You are invited</p>
+      <div ref={content} className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center text-cream">
+        <p className="font-display text-2xl text-marigold">{invite.invocation}</p>
+        <p className="-mt-4 text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
         <button
           ref={seal}
           onClick={open}
           aria-label="Open invitation"
-          className="flex size-28 items-center justify-center rounded-full border-2 border-gold bg-gold/90 font-display text-3xl text-maroon-deep shadow-2xl transition-transform hover:scale-105"
+          className="flex size-28 items-center justify-center rounded-full border-4 border-dotted border-cream/70 bg-marigold font-display text-5xl text-maroon-deep shadow-2xl transition-transform hover:scale-105"
         >
-          {invite.partnerOne[0]}&amp;{invite.partnerTwo[0]}
+          श्री
         </button>
-        <p className="text-xs tracking-[0.3em] uppercase opacity-70">Tap to open</p>
+        <p className="text-sm opacity-70">खोल्न थिच्नुहोस् · Tap to open</p>
       </div>
     </div>
   )
