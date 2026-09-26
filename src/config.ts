@@ -3,6 +3,8 @@
 
 export const invite = {
   invocation: 'श्री गणेशाय नमः',
+  // Shown under the seal on the opening envelope.
+  shloka: ['वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।', 'निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥'],
 
   // Aarusha is named first everywhere (names, WhatsApp message, page title).
   partnerOne: { np: 'आरुषा', en: 'Aarusha' },

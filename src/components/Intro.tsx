@@ -30,10 +30,19 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
       <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2 border-t border-gold-light/30" />
 
       <div ref={content} className="text-cream">
-        <div className="absolute inset-x-0 top-0 flex h-1/2 flex-col items-center justify-center gap-3 px-6 pb-[min(19vw,5rem)] text-center">
-          <Ganesh className="w-[min(34vw,9rem,18svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
-          <p className="mt-2 font-display text-2xl text-gold-light">{invite.invocation}</p>
-          <p className="text-lg opacity-80">तपाईंलाई हार्दिक निमन्त्रणा</p>
+        {/* Top flap: Ganesh. Bottom flap: shloka and invocation, below the seal. */}
+        <div className="absolute inset-x-0 top-0 flex h-1/2 items-center justify-center pb-[min(19vw,5rem)]">
+          <Ganesh className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-4 px-6 pt-[min(19vw,5rem)] text-center">
+          <p className="font-display text-lg leading-relaxed text-gold-light/90 sm:text-xl">
+            {invite.shloka.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </p>
+          <p className="font-display text-2xl text-gold-light">{invite.invocation}</p>
         </div>
       </div>
 

@@ -1,15 +1,19 @@
-# Cuts the lotus divider (design/divider.jpeg, our generated art) off its white watercolour paper.
-# Paper is near-neutral; the art is pink, gold, green or pencil-dark, so alpha comes from colour + darkness.
-# Output: src/assets/divider/divider.webp (transparent).
+# Cuts a painted element (our generated art) off its plain watercolour-paper background.
+# Paper is near-neutral; the art is pink, gold, green, maroon or pencil-dark, so alpha comes from colour + darkness.
+# Usage: python3 scripts/cut-painted.py SRC OUT MAX_SIDE
+#   divider:  python3 scripts/cut-painted.py design/divider.jpeg src/assets/divider/divider.webp 1400
+#   ornament: python3 scripts/cut-painted.py design/ornament.jpeg src/assets/ornament/hanging.webp 1400
 from PIL import Image, ImageFilter
 import numpy as np
 from collections import deque
+import sys
 
-SRC, OUT, WIDTH = 'design/divider.jpeg', 'src/assets/divider/divider.webp', 1400
+SRC, OUT, MAX_SIDE = sys.argv[1], sys.argv[2], int(sys.argv[3])
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)
-# Paper colour varies with the texture, so estimate it locally with a wide median-ish blur.
-paper = np.asarray(im.filter(ImageFilter.GaussianBlur(40))).astype(np.float32)
+# Paper colour: median of the plain border (a local blur would pick up colour from large painted areas).
+border = np.concatenate([a[:60].reshape(-1, 3), a[-60:].reshape(-1, 3), a[:, :60].reshape(-1, 3), a[:, -60:].reshape(-1, 3)])
+paper = np.broadcast_to(np.median(border, axis=0), a.shape).astype(np.float32)
 chroma = a.max(-1) - a.min(-1)
 pchroma = paper.max(-1) - paper.min(-1)
 lum = 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
@@ -51,6 +55,7 @@ for sy in range(H):
 al = np.maximum(alpha, 1e-3)[..., None]
 rgb = np.clip((a - (1 - al) * paper) / al, 0, 255)
 out = Image.fromarray(np.dstack([rgb, alpha * 255]).astype(np.uint8))
-out = out.resize((WIDTH, round(out.height * WIDTH / out.width)), Image.LANCZOS)
+k = min(1, MAX_SIDE / max(out.size))
+out = out.resize((round(out.width * k), round(out.height * k)), Image.LANCZOS)
 out.save(OUT, 'WEBP', quality=92, method=6)
 print(OUT, im.size, '->', out.size)
