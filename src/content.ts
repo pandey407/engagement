@@ -25,8 +25,8 @@ export const invite = {
   and: { np: 'र', en: '&' }, // between the two names
   occasion: { np: 'फूलमाला', en: 'Engagement Ceremony' },
   blessing: {
-    np: 'परिवारजनको आशीर्वादसहित हाम्रो नयाँ जीवनको सुरुवातको यस शुभ अवसरमा यहाँहरूको गरिमामय उपस्थितिको हार्दिक अनुरोध गर्दछौं।',
-    en: 'With the blessings of our families, we request the honour of your presence.',
+    np: 'यहाँहरूको उपस्थिति र आशीर्वादले यो दिन अझ विशेष बनोस्।',
+    en: 'May your presence and blessings make this day even more special.',
   },
 
   // ── When & where ───────────────────────────────────────────────────────────────────
