@@ -75,7 +75,17 @@ export function Hero() {
   )
 }
 
-// Date, time and venue in one section.
+function Label({ np, en }: { np: string; en: string }) {
+  return (
+    <div className="mb-3">
+      <p className="text-base text-gold">{np}</p>
+      {/* Letter-spacing only on the Latin line: it breaks up Devanagari conjuncts. */}
+      <p className="text-[10px] tracking-[0.25em] text-gold/80 uppercase">{en}</p>
+    </div>
+  )
+}
+
+// Date & time and venue side by side under one heading, map below.
 export function Details() {
   const { venue } = invite
   return (
@@ -83,31 +93,37 @@ export function Details() {
       <div className="flex w-full max-w-2xl flex-col items-center">
         <Heading np="शुभ साइत" en="When & where" />
 
-        <p data-reveal className="font-display text-3xl text-maroon sm:text-4xl">{invite.dateLabel.np}</p>
-        <div data-reveal>
-          <Sub>{invite.dateLabel.en}</Sub>
+        <div data-reveal className="grid w-full grid-cols-2 divide-x divide-gold/40 text-center">
+          <div className="px-3 sm:px-6">
+            <Label np="मिति र समय" en="Date & time" />
+            <p className="text-lg font-semibold text-maroon sm:text-xl">{invite.dateLabel.np}</p>
+            <p className="mt-1 text-base text-ink/75">{invite.time.np}</p>
+            <div className="mt-2">
+              <Sub>
+                {invite.dateLabel.en}
+                <br />
+                {invite.time.en}
+              </Sub>
+            </div>
+          </div>
+          <div className="px-3 sm:px-6">
+            <Label np="स्थान" en="Venue" />
+            <a href={venue.mapLink} target="_blank" rel="noreferrer" className="text-lg font-semibold text-maroon sm:text-xl">
+              {venue.name}
+            </a>
+            <p className="mt-1 text-base text-ink/75">{venue.address}</p>
+            <div className="mt-2">
+              <Sub>{venue.en}</Sub>
+            </div>
+          </div>
         </div>
 
-        <p data-reveal className="mt-6 text-2xl font-semibold text-maroon">{invite.time.np}</p>
-        <div data-reveal>
-          <Sub>{invite.time.en}</Sub>
-        </div>
-
-        <Divider className="my-8" />
-
-        <a data-reveal href={venue.mapLink} target="_blank" rel="noreferrer" className="font-display text-3xl text-maroon">
-          {venue.name}
-        </a>
-        <p data-reveal className="mt-1 text-lg text-ink/70">{venue.address}</p>
-        <div data-reveal className="mb-8">
-          <Sub>{venue.en}</Sub>
-        </div>
         <iframe
           data-reveal
           title={`Map to ${venue.en}`}
           src={venue.mapEmbedUrl}
           loading="lazy"
-          className="aspect-[4/3] w-full rounded-2xl border-4 border-white/80 shadow-lg shadow-maroon/10"
+          className="mt-10 aspect-[4/3] w-full rounded-2xl border-4 border-white/80 shadow-lg shadow-maroon/10"
         />
       </div>
     </Section>
