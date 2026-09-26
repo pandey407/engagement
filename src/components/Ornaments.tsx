@@ -3,6 +3,7 @@ import ganeshUrl from '../assets/ganesh.svg'
 import cloud1 from '../assets/clouds/cloud-1.webp'
 import cloud2 from '../assets/clouds/cloud-2.webp'
 import cloud3 from '../assets/clouds/cloud-3.webp'
+import borderTile from '../assets/border/tile.webp'
 import dividerUrl from '../assets/divider/divider.webp'
 import sealUrl from '../assets/seal/seal.webp'
 
@@ -19,21 +20,6 @@ export function Ganesh({ className = '' }: { className?: string }) {
   )
 }
 
-// Small stylised lotus used in dividers and the border pattern.
-export function LotusGlyph({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 24" className={className} aria-hidden>
-      <g strokeWidth="0.8" strokeLinejoin="round" className="stroke-gold">
-        <path d="M20 22C12 22 6 18 3 12 9 12 15 15 20 22Z" className="fill-lotus-light" />
-        <path d="M20 22C28 22 34 18 37 12 31 12 25 15 20 22Z" className="fill-lotus-light" />
-        <path d="M20 22C13 18 11 11 13 5 17 9 20 15 20 22Z" className="fill-lotus" />
-        <path d="M20 22C27 18 29 11 27 5 23 9 20 15 20 22Z" className="fill-lotus" />
-        <path d="M20 22C16 16 16 8 20 1 24 8 24 16 20 22Z" className="fill-maroon" />
-      </g>
-    </svg>
-  )
-}
-
 // Painted lotus divider with gold vines (our generated art, cut out by scripts/cut-divider.py).
 export function Divider({ className = '' }: { className?: string }) {
   return (
@@ -47,24 +33,9 @@ export function Divider({ className = '' }: { className?: string }) {
   )
 }
 
-// Repeating lotus border band (vector tile).
-const bandTile = encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="56" height="28" viewBox="0 0 56 28">
-    <rect width="56" height="28" fill="#faf4ea"/>
-    <path d="M0 2.5H56M0 25.5H56" stroke="#a87a3a" stroke-width="1"/>
-    <path d="M0 5H56M0 23H56" stroke="#77142a" stroke-width="0.6"/>
-    <g transform="translate(18 6) scale(0.5)" stroke="#a87a3a" stroke-width="1.2">
-      <path d="M20 22C12 22 6 18 3 12 9 12 15 15 20 22Z" fill="#f5b7b7"/>
-      <path d="M20 22C28 22 34 18 37 12 31 12 25 15 20 22Z" fill="#f5b7b7"/>
-      <path d="M20 22C13 18 11 11 13 5 17 9 20 15 20 22Z" fill="#dc7d87"/>
-      <path d="M20 22C27 18 29 11 27 5 23 9 20 15 20 22Z" fill="#dc7d87"/>
-      <path d="M20 22C16 16 16 8 20 1 24 8 24 16 20 22Z" fill="#77142a"/>
-    </g>
-    <circle cx="4" cy="14" r="1.4" fill="#a87a3a"/><circle cx="52" cy="14" r="1.4" fill="#a87a3a"/>
-  </svg>`,
-)
+// Painted lotus border strip (our generated art): one seamless repeat, tiled across the width.
 export function Band() {
-  return <div className="h-7" style={{ background: `url("data:image/svg+xml,${bandTile}") repeat-x left center` }} />
+  return <div className="h-11 sm:h-14" style={{ background: `url(${borderTile}) repeat-x left center / auto 100%` }} />
 }
 
 // Painted lotus wax seal (our generated art, cut out by scripts/cut-seal.py).
