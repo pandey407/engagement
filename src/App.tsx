@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Intro } from './components/Intro'
 import { Petals } from './components/Petals'
 import { Closing, Details, Hero } from './components/Sections'
+import { LangProvider, LangToggle } from './components/Lang'
 import { revealOnScroll, startSmoothScroll } from './lib/motion'
 
 export default function App() {
@@ -21,14 +22,15 @@ export default function App() {
   }, [opened])
 
   return (
-    <>
+    <LangProvider>
       {!opened && <Intro onOpen={() => setOpened(true)} />}
       {opened && <Petals />}
+      {opened && <LangToggle />}
       <main ref={main} className={opened ? '' : 'h-svh overflow-hidden'}>
         <Hero />
         <Details />
         <Closing />
       </main>
-    </>
+    </LangProvider>
   )
 }

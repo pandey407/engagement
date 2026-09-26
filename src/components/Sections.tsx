@@ -6,6 +6,7 @@ import maroonBottom from '../assets/frame/maroon-bottom.webp'
 import maroonMid from '../assets/frame/maroon-mid.webp'
 import maroonTop from '../assets/frame/maroon-top.webp'
 import { invite } from '../content'
+import { useLang, type Pair } from '../lib/lang'
 import { Band, Cloud, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -16,21 +17,18 @@ function Section({ children, className = '' }: { children: ReactNode; className?
   )
 }
 
-function Heading({ np, en }: { np: string; en: string }) {
+function Heading({ text }: { text: Pair }) {
+  const { t } = useLang()
   return (
     <div data-reveal className="mb-10 flex flex-col items-center">
-      <h2 className="font-display text-3xl text-maroon sm:text-4xl">{np}</h2>
-      <p className="mt-1 text-xs tracking-[0.3em] text-gold uppercase">{en}</p>
+      <h2 className="font-display text-3xl text-maroon sm:text-4xl">{t(text)}</h2>
       <Divider className="mt-4" />
     </div>
   )
 }
 
-function Sub({ children }: { children: ReactNode }) {
-  return children ? <p className="text-sm text-ink/55">{children}</p> : null
-}
-
 export function Hero() {
+  const { t } = useLang()
   return (
     <header className="relative min-h-svh overflow-hidden pb-16">
       <Band />
@@ -52,75 +50,51 @@ export function Hero() {
       >
         <div className="arch-card absolute inset-0 -z-10" />
         <p data-reveal className="font-display text-base text-maroon">{invite.invocation}</p>
-        <p data-reveal className="mt-2 font-display text-2xl text-lotus">{invite.occasion.np}</p>
-        <p data-reveal className="text-[10px] tracking-[0.3em] text-gold uppercase">{invite.occasion.en}</p>
+        <p data-reveal className="mt-2 font-display text-2xl text-lotus">{t(invite.occasion)}</p>
 
         <h1 data-reveal className="mt-6 font-display text-4xl leading-tight text-maroon sm:text-5xl">
-          {invite.partnerOne.np}
-          <span className="block text-2xl text-gold">{invite.and.np}</span>
-          {invite.partnerTwo.np}
+          {t(invite.partnerOne)}
+          <span className="block text-2xl text-gold">{t(invite.and)}</span>
+          {t(invite.partnerTwo)}
         </h1>
-        <p data-reveal className="mt-2 text-xs tracking-widest text-ink/60 uppercase">
-          {invite.partnerOne.en} {invite.and.en} {invite.partnerTwo.en}
-        </p>
 
         <Divider className="my-5" />
-        <p data-reveal className="text-sm leading-relaxed text-ink/80">{invite.blessing.np}</p>
-        <div data-reveal className="mt-1">
-          <Sub>{invite.blessing.en}</Sub>
-        </div>
-
-        <p data-reveal className="mt-5 text-lg font-semibold text-maroon">{invite.dateLabel.np}</p>
-        <div data-reveal>
-          <Sub>{invite.dateLabel.en}</Sub>
-        </div>
+        <p data-reveal className="text-sm leading-relaxed text-ink/80">{t(invite.blessing)}</p>
+        <p data-reveal className="mt-5 text-lg font-semibold text-maroon">{t(invite.dateLabel)}</p>
       </div>
     </header>
   )
 }
 
-function Label({ np, en }: { np: string; en: string }) {
-  return (
-    <div className="mb-3">
-      <p className="text-sm text-gold">{np}</p>
-      {/* Letter-spacing only on the Latin line: it breaks up Devanagari conjuncts. */}
-      <p className="text-[10px] tracking-[0.25em] text-gold/80 uppercase">{en}</p>
-    </div>
-  )
+function Label({ text }: { text: Pair }) {
+  const { lang, t } = useLang()
+  // Letter-spacing only for Latin: it breaks up Devanagari conjuncts.
+  return <p className={`mb-3 text-gold ${lang === 'en' ? 'text-xs tracking-[0.25em] uppercase' : 'text-sm'}`}>{t(text)}</p>
 }
 
 // Date & time and venue side by side under one heading, map below.
 export function Details() {
+  const { t } = useLang()
   const { venue } = invite
   return (
     <Section className="max-w-none overflow-hidden bg-paper/40">
       <Cloud n={3} className="absolute top-10 -right-[12%] hidden w-[22vw] max-w-[18rem] opacity-70 lg:block" />
       <Cloud n={2} className="absolute bottom-16 -left-[10%] hidden w-[24vw] max-w-[20rem] opacity-70 [animation-delay:-6s] lg:block" />
       <div className="relative flex w-full max-w-2xl flex-col items-center">
-        <Heading {...invite.details.heading} />
+        <Heading text={invite.details.heading} />
 
         <div data-reveal className="grid w-full grid-cols-2 divide-x divide-gold/40 text-center">
           <div className="px-3 sm:px-6">
-            <Label {...invite.details.dateTimeLabel} />
-            <p className="text-base font-semibold text-maroon sm:text-lg">{invite.dateLabel.np}</p>
-            <p className="mt-1 text-sm text-ink/75">{invite.time.np}</p>
-            <div className="mt-2">
-              <Sub>
-                {invite.dateLabel.en}
-                <br />
-                {invite.time.en}
-              </Sub>
-            </div>
+            <Label text={invite.details.dateTimeLabel} />
+            <p className="text-base font-semibold text-maroon sm:text-lg">{t(invite.dateLabel)}</p>
+            <p className="mt-1 text-sm text-ink/75">{t(invite.time)}</p>
           </div>
           <div className="px-3 sm:px-6">
-            <Label {...invite.details.venueLabel} />
+            <Label text={invite.details.venueLabel} />
             <a href={venue.mapLink} target="_blank" rel="noreferrer" className="text-base font-semibold text-maroon sm:text-lg">
-              {venue.name}
+              {t(venue.name)}
             </a>
-            <p className="mt-1 text-sm text-ink/75">{venue.address}</p>
-            <div className="mt-2">
-              <Sub>{venue.en}</Sub>
-            </div>
+            <p className="mt-1 text-sm text-ink/75">{t(venue.address)}</p>
           </div>
         </div>
 
@@ -139,6 +113,7 @@ export function Details() {
 }
 
 export function Closing() {
+  const { t } = useLang()
   return (
     <footer className="relative overflow-hidden pt-16 text-center">
       <div
@@ -154,10 +129,8 @@ export function Closing() {
         }
       >
         <div className="maroon-card absolute inset-0 -z-10" />
-        <p data-reveal className="font-display text-lg leading-snug sm:text-2xl">{invite.closing.np}</p>
-        <p data-reveal className="mt-2 text-sm text-cream/65">{invite.closing.en}</p>
-        <p data-reveal className="mt-5 font-display text-base text-gold-light sm:text-xl">{invite.familyLine.np}</p>
-        <p data-reveal className="mt-1 text-sm text-cream/65">{invite.familyLine.en}</p>
+        <p data-reveal className="font-display text-lg leading-snug sm:text-2xl">{t(invite.closing)}</p>
+        <p data-reveal className="mt-5 font-display text-base text-gold-light sm:text-xl">{t(invite.familyLine)}</p>
       </div>
       <Band />
     </footer>

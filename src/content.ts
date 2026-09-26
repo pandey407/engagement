@@ -1,18 +1,19 @@
 // ALL TEXT ON THE INVITE LIVES IN THIS FILE. Edit here; nothing else needs to change.
-// Pairs like { np, en }: `np` is the main Nepali line, `en` the small English line under it ('' hides it).
+// Pairs like { np, en }: guests see ONE language at a time (toggle at the top right; Nepali by default,
+// `?lang=en` in the link opens it in English). Write both versions of every pair.
 // Save the file and the page updates (npm run dev), or push to publish.
 
 export const invite = {
   // ── Page title & link preview (browser tab, WhatsApp/Messenger preview) ──────────────
   meta: {
-    title: 'आरुषा र आश्लेष · शुभ सगाई',
-    previewTitle: "आरुषा र आश्लेष · Aarusha & Ashlesh's Engagement",
+    title: 'आरुषा र अश्लेष · फूलमाला',
+    previewTitle: "आरुषा र अश्लेष · Aarusha & Ashlesh's Engagement",
     description: 'Join us as we celebrate the engagement of Aarusha & Ashlesh.',
     siteUrl: 'https://invite.ashleshpandey.com.np/',
   },
 
   // ── Opening envelope ───────────────────────────────────────────────────────────────
-  // Shown under the seal, followed by the invocation below.
+  // Sanskrit prayers: shown as written in both languages. Under the seal, then the invocation.
   shloka: ['वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।', 'निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥'],
   invocation: 'श्री गणेशाय नमः', // also shown at the top of the name card
   openLabel: 'Open invitation', // read out by screen readers for the seal button
@@ -20,7 +21,7 @@ export const invite = {
   // ── Name card ──────────────────────────────────────────────────────────────────────
   // Aarusha is named first everywhere (names, page title, link preview).
   partnerOne: { np: 'आरुषा', en: 'Aarusha' },
-  partnerTwo: { np: 'आश्लेष', en: 'Ashlesh' },
+  partnerTwo: { np: 'अश्लेष', en: 'Ashlesh' },
   and: { np: 'र', en: '&' }, // between the two names
   occasion: { np: 'फूलमाला', en: 'Engagement Ceremony' },
   blessing: {
@@ -38,9 +39,8 @@ export const invite = {
   dateLabel: { np: 'असोज २६, २०८३ सोमवार', en: 'Monday, 12 October 2026' },
   time: { np: 'दिउँसो २:०० बजे', en: '2:00 PM' },
   venue: {
-    name: 'अक्वाकुनो',
-    address: 'हात्तीगौंडा (खत्री गाउँ), काठमाडौं',
-    en: 'AquaKuno, Hattigauda (Khatri Gaun), Kathmandu, Nepal',
+    name: { np: 'अक्वाकुनो', en: 'AquaKuno' },
+    address: { np: 'हात्तीगौंडा (खत्री गाउँ), काठमाडौं', en: 'Hattigauda (Khatri Gaun), Kathmandu, Nepal' },
     // Google Maps → Share → Embed a map → copy the src="..." URL
     mapEmbedUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3530.6050939221896!2d85.3416597!3d27.760323999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1f3d03bd1a5d%3A0xbc19213e48bac64!2sAquaKuno!5e0!3m2!1sen!2snp!4v1790441284980!5m2!1sen!2snp',
