@@ -27,6 +27,8 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
 
 ## Theme art
 
-Ornaments (lotus, garlands, arch frame, Ganesh, diya…) are cut from our own generated sheet
-`design/theme-sheet.webp` into `src/assets/theme/*.webp` by `scripts/extract-theme.py`
-(transparent background, 2× upscale). Use them in components via `art('name')` from `src/lib/art.ts`.
+- `src/assets/ganesh.svg`: our Ganesh line art traced to vector (`scripts/trace-ganesh.py`, source `design/ganesh.jpg`).
+  It uses `currentColor`, so it takes the surrounding text colour.
+- `src/assets/lotus/lotus.webp`: *East Indian Lotus*, British, late 19th century, National Gallery of Art
+  (CC0 / public domain), cut out and tinted blush by `scripts/cut-lotus.py` from `design/lotus-nga-52325.jpg`.
+- Arch frame, dividers, border pattern: hand-drawn SVG in `src/components/Ornaments.tsx`.
