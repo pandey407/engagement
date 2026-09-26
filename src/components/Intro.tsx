@@ -9,6 +9,10 @@ import { gsap, prefersReducedMotion } from '../lib/motion'
 const outlinePath = sealOutline.match(/ d="([^"]+)"/)?.[1] ?? ''
 const outlineView = sealOutline.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 100 100'
 
+// Shloka writing timing (seconds): starts while Ganesh is being drawn, one line after another.
+const WRITE_START = 0.8
+const WRITE_LINE = 2.6
+
 // Full-screen "envelope" the guest taps to open the invite.
 export function Intro({ onOpen }: { onOpen: () => void }) {
   const root = useRef<HTMLDivElement>(null)
@@ -40,14 +44,17 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
           <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
         </div>
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-4 px-6 pt-[min(19vw,5rem)] text-center">
+          {/* The shloka is "written" line by line like a sacred text, then the invocation appears. */}
           <p className="font-display text-base leading-relaxed text-gold-light/90 sm:text-lg">
-            {invite.shloka.map((line) => (
-              <span key={line} className="block">
+            {invite.shloka.map((line, i) => (
+              <span key={line} className="write-line" style={{ '--write-delay': `${WRITE_START + i * WRITE_LINE}s` } as CSSProperties}>
                 {line}
               </span>
             ))}
           </p>
-          <p className="font-display text-xl text-gold-light">{invite.invocation}</p>
+          <p className="write-after font-display text-xl text-gold-light" style={{ animationDelay: `${WRITE_START + invite.shloka.length * WRITE_LINE}s` }}>
+            {invite.invocation}
+          </p>
         </div>
       </div>
 
@@ -58,11 +65,9 @@ export function Intro({ onOpen }: { onOpen: () => void }) {
         className="absolute top-1/2 left-1/2 cursor-pointer w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] transition-[scale] duration-300 hover:scale-105 active:scale-95"
       >
         {/* Gold rings shaped like the seal's wavy edge ripple outwards, and the seal pulses, to invite a tap. */}
-        {[0, 1.2].map((delay) => (
-          <svg key={delay} aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
-            <path className="seal-ripple" d={outlinePath} style={{ animationDelay: `${delay}s` }} />
-          </svg>
-        ))}
+        <svg aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
+          <path className="seal-ripple" d={outlinePath} />
+        </svg>
         <Seal className="seal-pulse relative w-full" />
       </button>
     </div>

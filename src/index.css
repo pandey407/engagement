@@ -102,9 +102,10 @@ body {
 .seal-pulse {
   animation: seal-pulse 2.4s ease-in-out infinite;
 }
+/* One ring every 4s: it expands over the first 60%, then a calm pause. */
 @keyframes seal-ripple {
-  from { transform: scale(0.95); opacity: 0.8; }
-  to { transform: scale(1.6); opacity: 0; }
+  0% { transform: scale(0.95); opacity: 0.8; }
+  60%, 100% { transform: scale(1.6); opacity: 0; }
 }
 .seal-ripple {
   fill: none;
@@ -113,7 +114,7 @@ body {
   vector-effect: non-scaling-stroke;
   filter: drop-shadow(0 0 6px rgb(221 175 122 / 0.55));
   transform-origin: center;
-  animation: seal-ripple 2.4s ease-out infinite;
+  animation: seal-ripple 4s ease-out infinite;
 }
 
 /* Envelope Ganesh: each stroke's outline draws on, then the drawing fills; the diya flame flickers. */
@@ -151,8 +152,52 @@ body {
   80% { transform: scale(1.02, 0.97) skewX(2.5deg); filter: drop-shadow(0 0 5px rgb(255 175 65 / 0.7)); }
 }
 
+/* Shloka written like ink on a sacred text: a feathered mask sweeps each line left to right,
+   with a small glowing nib at the writing edge. (Whole lines, so Devanagari conjuncts stay intact.) */
+.write-line {
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
+  -webkit-mask: linear-gradient(90deg, #000 45%, transparent 55%) 100% 0 / 220% 100% no-repeat;
+  mask: linear-gradient(90deg, #000 45%, transparent 55%) 100% 0 / 220% 100% no-repeat;
+  animation: write-ink 2.4s linear var(--write-delay, 0s) forwards;
+}
+@keyframes write-ink {
+  to { -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
+.write-line::after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: -10%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fff3d1;
+  box-shadow: 0 0 10px 3px rgb(255 205 120 / 0.8);
+  opacity: 0;
+  animation: write-nib 2.4s linear var(--write-delay, 0s) forwards;
+}
+@keyframes write-nib {
+  0% { left: -10%; opacity: 0; }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+.write-after {
+  opacity: 0;
+  animation: write-after 1.2s ease forwards;
+}
+@keyframes write-after {
+  from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .seal-pulse, .ganesh-flame { animation: none; }
+  .write-line { -webkit-mask: none; mask: none; animation: none; }
+  .write-line::after { display: none; }
   .seal-ripple { display: none; }
 }
 
