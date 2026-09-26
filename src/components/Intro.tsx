@@ -95,7 +95,7 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
       >
         {/* Once ready: rings shaped like the seal's wavy edge ripple out, and the seal bounces. */}
         {phase === 'ready' && (
-          <svg aria-hidden viewBox={outlineView} className="absolute inset-0 h-full w-full overflow-visible">
+          <svg aria-hidden viewBox={outlineView} className="seal-ripple-layer absolute inset-0 h-full w-full overflow-visible">
             <path className="seal-ripple" d={outlinePath} />
           </svg>
         )}

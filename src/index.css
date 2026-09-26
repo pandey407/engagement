@@ -106,8 +106,12 @@ body {
   stroke: var(--color-gold-light);
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
+}
+/* The ripple's SVG layer is scaled as a whole (rasterised once, then composited on the GPU). */
+.seal-ripple-layer {
   filter: drop-shadow(0 0 6px rgb(221 175 122 / 0.55));
   transform-origin: center;
+  will-change: transform, opacity;
   animation: seal-ripple 4s ease-out infinite;
 }
 
@@ -136,17 +140,20 @@ body {
 .ganesh-flame {
   transform-box: fill-box;
   transform-origin: 50% 100%;
+  /* Static glow (a filter is rasterised once); only the transform animates, which stays on the GPU. */
+  filter: drop-shadow(0 0 6px rgb(255 170 60 / 0.75));
+  will-change: transform;
   animation: flame-flicker 1.7s ease-in-out infinite;
 }
 @keyframes flame-flicker {
-  0%, 100% { transform: scale(1, 1) skewX(0deg); filter: drop-shadow(0 0 4px rgb(255 170 60 / 0.65)); }
-  20% { transform: scale(0.93, 1.07) skewX(-3deg); filter: drop-shadow(0 0 7px rgb(255 160 50 / 0.85)); }
-  40% { transform: scale(1.04, 0.95) skewX(2deg); filter: drop-shadow(0 0 5px rgb(255 180 70 / 0.7)); }
-  60% { transform: scale(0.96, 1.09) skewX(-1.5deg); filter: drop-shadow(0 0 8px rgb(255 150 40 / 0.9)); }
-  80% { transform: scale(1.02, 0.97) skewX(2.5deg); filter: drop-shadow(0 0 5px rgb(255 175 65 / 0.7)); }
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  20% { transform: scale(0.93, 1.07) skewX(-3deg); }
+  40% { transform: scale(1.04, 0.95) skewX(2deg); }
+  60% { transform: scale(0.96, 1.09) skewX(-1.5deg); }
+  80% { transform: scale(1.02, 0.97) skewX(2.5deg); }
 }
 
-/* Envelope sequence: the seam line scratches across, the seal drops in, then bounces to invite a tap. */
+/* Envelope sequence: the seam line scratches across, the seal drops in, then pulses to invite a tap. */
 .seam-line {
   transform: scaleX(0);
   box-shadow: 0 0 8px rgb(221 175 122 / 0.8);
@@ -166,6 +173,7 @@ body {
   to { opacity: 1; scale: 1; rotate: 0deg; }
 }
 .seal-bounce {
+  will-change: transform;
   animation: seal-pulse 2.4s ease-in-out infinite;
 }
 @keyframes seal-pulse {

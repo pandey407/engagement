@@ -14,14 +14,15 @@ type Props = {
   onDone?: () => void
 }
 
-type Frag = { x: number; y: number; sx: number; sy: number; t0: number; rot: number }
+// Positions in device pixels: tx/ty are whole-pixel home positions (so landed fragments tile seamlessly).
+type Frag = { tx: number; ty: number; sx: number; sy: number; t0: number }
 
 const SPREAD = 90 // CSS px of margin around the text the dust can start from
-const TILE = 3 // CSS px per fragment
+const TILE = 3 // CSS px per fragment (fine enough to read as dust)
 
 // Sizes the canvas around `box` and renders the finished text offscreen at the same place as the real text.
 function prepare(box: HTMLElement, cv: HTMLCanvasElement) {
-  const dpr = Math.min(window.devicePixelRatio || 1, 3)
+  const dpr = Math.min(window.devicePixelRatio || 1, 2) // 3x canvases are heavy on phones; 2x is still crisp
   const rect = box.getBoundingClientRect()
   const W = rect.width + SPREAD * 2, H = rect.height + SPREAD * 2
   cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr)
@@ -47,7 +48,7 @@ function prepare(box: HTMLElement, cv: HTMLCanvasElement) {
     s.fillText(span.textContent ?? '', left, top + (lh - asc - desc) / 2 + asc)
     return { top, bottom: top + r.height, left, width: r.width }
   })
-  return { g, src, dpr, W, H, lines }
+  return { g, src, dpr, lines }
 }
 
 export function DustText({ lines, className = '', lineClassName = '', start = 0.3, duration = 2.8, onDone }: Props) {
@@ -69,9 +70,10 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
     // After it settles, keep the final text aligned if the layout changes (rotation, resize).
     const redraw = () => {
       if (!settled) return
-      const { g, src, W, H } = prepare(box, cv)
-      g.clearRect(0, 0, W, H)
-      g.drawImage(src, 0, 0, W, H)
+      const { g, src } = prepare(box, cv)
+      g.setTransform(1, 0, 0, 1, 0, 0)
+      g.clearRect(0, 0, cv.width, cv.height)
+      g.drawImage(src, 0, 0)
     }
     window.addEventListener('resize', redraw)
     document.fonts.addEventListener('loadingdone', redraw) // a late font: redraw the settled text in it
@@ -87,7 +89,7 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
       )
       await document.fonts.ready
       if (cancelled) return
-      const { g, src, dpr, W, H, lines: boxes } = prepare(box, cv)
+      const { g, src, dpr, lines: boxes } = prepare(box, cv)
       const px = src.getContext('2d')!.getImageData(0, 0, src.width, src.height).data
 
       // Cut into fragments (only ones with ink), each starting scattered up/right and departing in a
@@ -95,7 +97,8 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
       const across = duration * 0.62 // seconds for the departures to sweep across a line
       const FLY = duration * 0.38 // seconds each fragment takes to land
       const frags: Frag[] = []
-      const T = TILE * dpr
+      // Whole device pixels per fragment: a fractional size (e.g. on 2.75x screens) leaves hairline seams.
+      const T = Math.max(2, Math.round(TILE * dpr))
       for (let ty = 0; ty < src.height; ty += T) {
         for (let tx = 0; tx < src.width; tx += T) {
           let ink = false
@@ -108,43 +111,55 @@ export function DustText({ lines, className = '', lineClassName = '', start = 0.
           const xf = Math.min(Math.max((x - line.left) / line.width, 0), 1)
           const a = Math.random() * Math.PI * 2, d = 20 + Math.random() * SPREAD
           frags.push({
-            x, y,
-            sx: x + Math.cos(a) * d + 30 + Math.random() * 50,
-            sy: y + Math.sin(a) * d * 0.6 - 12,
+            tx, ty,
+            sx: tx + (Math.cos(a) * d + 30 + Math.random() * 50) * dpr,
+            sy: ty + (Math.sin(a) * d * 0.6 - 12) * dpr,
             t0: xf * across + Math.random() * 0.15,
-            rot: (Math.random() - 0.5) * 2.4,
           })
         }
       }
-      const end = Math.max(...frags.map((f) => f.t0)) + FLY
+      // Performance: fragments are sorted by departure and walked with two cursors. Landed fragments are
+      // painted once onto a `settled` layer (exact pixels), so each frame draws that layer plus only the
+      // fragments still in flight: no per-fragment save/rotate, and no redrawing of finished text.
+      frags.sort((p, q) => p.t0 - q.t0)
+      const settledLayer = document.createElement('canvas')
+      settledLayer.width = src.width; settledLayer.height = src.height
+      const sl = settledLayer.getContext('2d')!
+      const end = frags[frags.length - 1].t0 + FLY
       const t0 = performance.now() + start * 1000
       const ease = (t: number) => 1 - Math.pow(1 - t, 3)
+      let landed = 0 // frags[0..landed) are on the settled layer
+      let started = 0 // frags[landed..started) are in flight
 
       const frame = (now: number) => {
         const t = (now - t0) / 1000
-        g.clearRect(0, 0, W, H)
         if (t >= end) {
-          // Settled: the whole finished text, drawn once, stays as the display.
+          // Settled: the whole finished text, drawn once (pixel for pixel), stays as the display.
+          g.setTransform(1, 0, 0, 1, 0, 0)
+          g.clearRect(0, 0, cv.width, cv.height)
           g.globalAlpha = 1
-          g.drawImage(src, 0, 0, W, H)
+          g.drawImage(src, 0, 0)
           settled = true
           onDone?.()
           return
         }
-        for (const f of frags) {
-          const k = Math.min(Math.max((t - f.t0) / FLY, 0), 1)
-          if (k <= 0) continue
-          g.globalAlpha = Math.min(1, k * 2)
-          if (k >= 1) {
-            g.drawImage(src, f.x * dpr, f.y * dpr, T, T, f.x, f.y, TILE, TILE)
-            continue
-          }
+        while (started < frags.length && frags[started].t0 <= t) started++
+        // Move newly landed fragments (in departure order) onto the settled layer.
+        while (landed < started && t - frags[landed].t0 >= FLY) {
+          const f = frags[landed++]
+          sl.drawImage(src, f.tx, f.ty, T, T, f.tx, f.ty, T, T) // exact pixel copy
+        }
+        // Draw in device pixels (identity transform) so everything lines up with the pixel grid.
+        g.setTransform(1, 0, 0, 1, 0, 0)
+        g.clearRect(0, 0, cv.width, cv.height)
+        g.globalAlpha = 1
+        g.drawImage(settledLayer, 0, 0)
+        for (let i = landed; i < started; i++) {
+          const f = frags[i]
+          const k = Math.min((t - f.t0) / FLY, 1)
           const e = ease(k)
-          g.save()
-          g.translate(f.sx + (f.x - f.sx) * e + TILE / 2, f.sy + (f.y - f.sy) * e + TILE / 2)
-          g.rotate(f.rot * (1 - e))
-          g.drawImage(src, f.x * dpr, f.y * dpr, T, T, -TILE / 2, -TILE / 2, TILE, TILE)
-          g.restore()
+          g.globalAlpha = k < 0.5 ? k * 2 : 1
+          g.drawImage(src, f.tx, f.ty, T, T, f.sx + (f.tx - f.sx) * e, f.sy + (f.ty - f.sy) * e, T, T)
         }
         raf = requestAnimationFrame(frame)
       }
