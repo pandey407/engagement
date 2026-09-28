@@ -22,8 +22,7 @@ export const engagement = {
   },
   sides: {
     both: { path: '', first: 'bride', familyLine: { np: 'विनीत: दुवै परिवार', en: 'With love, from both our families' } },
-    // TODO: Aarusha's family name, e.g. 'विनीत: ____ परिवार' / 'With love, the ____ family'
-    bride: { path: 'aarusha', first: 'bride', familyLine: { np: 'विनीत: [थर] परिवार', en: 'With love, the [surname] family' } },
+    bride: { path: 'aarusha', first: 'bride', familyLine: { np: 'विनीत: लुइटेल परिवार', en: 'With love, the Luitel family' } },
     groom: { path: 'ashlesh', first: 'groom', familyLine: { np: 'विनीत: पाण्डे परिवार', en: 'With love, the Pandey family' } },
   },
 
