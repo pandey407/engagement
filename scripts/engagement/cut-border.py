@@ -1,10 +1,10 @@
-# Cuts one seamless repeat from the lotus border strip (design/border.jpeg, our generated art).
+# Cuts one seamless repeat from the lotus border strip (design/engagement/border.jpeg, our generated art).
 # Finds the band rows (cream band vs grey backdrop), measures the repeat period by self-matching,
-# and saves a single tile that the page repeats horizontally. Output: src/assets/border/tile.webp.
+# and saves a single tile that the page repeats horizontally. Output: src/events/engagement/assets/border/tile.webp.
 from PIL import Image
 import numpy as np
 
-SRC, OUT = 'design/border.jpeg', 'src/assets/border/tile.webp'
+SRC, OUT = 'design/engagement/border.jpeg', 'src/events/engagement/assets/border/tile.webp'
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)
 # Band rows: warm cream (R clearly above B) across most of the width; backdrop is neutral grey.

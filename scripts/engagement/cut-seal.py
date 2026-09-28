@@ -1,12 +1,12 @@
-# Cuts the lotus wax seal (design/seal.jpg, our generated art) off its plain grey background.
-# Output: src/assets/seal/seal.webp (transparent, native resolution).
-# Usage: python3 scripts/cut-seal.py [SRC] [OUT] [WARM]  (also cuts the pale closing card: WARM 5)
+# Cuts a painted piece off its plain grey background: the envelope's lotus wax seal (default) or, with
+# WARM 5, the engagement's pale closing card. Output: transparent WebP at native resolution.
+# Usage: python3 scripts/engagement/cut-seal.py [SRC] [OUT] [WARM]  (also cuts the pale closing card: WARM 5)
 from PIL import Image, ImageFilter
 import numpy as np
 
 import sys
-SRC = sys.argv[1] if len(sys.argv) > 1 else 'design/seal-pink.jpeg'
-OUT = sys.argv[2] if len(sys.argv) > 2 else 'src/assets/seal/seal.webp'
+SRC = sys.argv[1] if len(sys.argv) > 1 else 'design/envelope/seal.jpg'
+OUT = sys.argv[2] if len(sys.argv) > 2 else 'src/envelope/assets/seal.webp'
 WARM = float(sys.argv[3]) if len(sys.argv) > 3 else 10  # R-G above which a pixel is artwork, not grey backdrop
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)

@@ -1,7 +1,7 @@
 # Cuts a painted element (our generated art) off its plain watercolour-paper background.
 # Paper is near-neutral; the art is pink, gold, green, maroon or pencil-dark, so alpha comes from colour + darkness.
-# Usage: python3 scripts/cut-painted.py SRC OUT MAX_SIDE
-#   divider:  python3 scripts/cut-painted.py design/divider.jpeg src/assets/divider/divider.webp 1400
+# Usage: python3 scripts/engagement/cut-painted.py SRC OUT MAX_SIDE
+#   divider:  python3 scripts/engagement/cut-painted.py design/engagement/divider.jpeg src/events/engagement/assets/divider/divider.webp 1400
 from PIL import Image, ImageFilter
 import numpy as np
 from collections import deque

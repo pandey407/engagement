@@ -1,4 +1,4 @@
-import ganeshRaw from '../assets/ganesh.svg?raw'
+import ganeshRaw from './assets/ganesh.svg?raw'
 
 // Our traced Ganesh, drawn on stroke by stroke, then filled; the diya flame at the top flickers.
 // The SVG is one path of sub-shapes; the topmost one is the flame.

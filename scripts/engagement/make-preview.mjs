@@ -1,16 +1,16 @@
 // Makes the WhatsApp / Messenger link-preview images, one per event/side link (public/previews/<event>-<side>.jpg,
 // 1200x630 JPEG: WhatsApp skips large images), from src/events, drawn on a canvas with our art and fonts
 // (the browser shapes the Devanagari correctly).
-//   1. node scripts/make-preview.mjs           -> writes preview/index.html (dev-only page, git-ignored)
+//   1. node scripts/engagement/make-preview.mjs           -> writes preview/index.html (dev-only page, git-ignored)
 //   2. python3 scripts/save-preview.py &      -> tiny receiver on :8765 that writes public/previews/*.jpg
 //   3. npm run dev, open http://localhost:5173/preview/  (the page draws every image and sends them)
 // Re-run after changing names, occasion or date in src/events/<event>.ts.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join, resolve as resolvePath } from 'node:path'
-import { resolve, routes } from '../src/events/index.ts'
+import { resolve, routes } from '../../src/events/index.ts'
 
-const root = resolvePath(import.meta.dirname, '..')
-const variants = routes().map((r) => {
+const root = resolvePath(import.meta.dirname, '../..')
+const variants = routes().filter((r) => r.event === 'engagement').map((r) => {
   const invite = resolve(r.event, r.side)
   return {
     name: `${r.event}-${r.side}`,
@@ -30,7 +30,7 @@ const html = `<!doctype html><html lang="ne"><head><meta charset="utf-8"><title>
 <script type="module">
 const VARIANTS = ${JSON.stringify(variants)}
 const ALL = VARIANTS.map((v) => Object.values(v.T).join(' ')).join(' ')
-const A = (p) => '/src/assets/' + p
+const A = (p) => '/src/events/engagement/assets/' + p
 const load = (src) => new Promise((ok, err) => { const i = new Image(); i.onload = () => ok(i); i.onerror = err; i.src = src })
 const NAMES = "'Parisienne', 'Laila'"
 const DISPLAY = "'Cormorant Garamond', 'Tiro Devanagari Sanskrit'", BODY = "'Cormorant Garamond', 'Noto Serif Devanagari'"

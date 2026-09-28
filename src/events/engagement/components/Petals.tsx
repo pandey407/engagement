@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { gsap, prefersReducedMotion } from '../lib/motion'
+import { gsap, prefersReducedMotion } from '../../../lib/motion'
 
 // Falling lotus (कमल) petals. Swap the SVG for your own flower PNGs later.
 // More petals on wider screens so the density feels the same.

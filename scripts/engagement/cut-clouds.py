@@ -1,11 +1,11 @@
-# Cuts the three watercolour clouds (design/clouds.jpeg, our generated art) off their white paper and splits
+# Cuts the three watercolour clouds (design/engagement/clouds.jpeg, our generated art) off their white paper and splits
 # them into separate files. The clouds are almost paper-coloured, so we use their gold outlines: everything
-# enclosed by an outline is cloud. Output: src/assets/clouds/cloud-{1,2,3}.webp (largest first).
+# enclosed by an outline is cloud. Output: src/events/engagement/assets/clouds/cloud-{1,2,3}.webp (largest first).
 from PIL import Image, ImageFilter
 import numpy as np
 from collections import deque
 
-SRC, MAX_SIDE = 'design/clouds.jpeg', 900
+SRC, MAX_SIDE = 'design/engagement/clouds.jpeg', 900
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)
 border = np.concatenate([a[:60].reshape(-1, 3), a[-60:].reshape(-1, 3), a[:, :60].reshape(-1, 3), a[:, -60:].reshape(-1, 3)])
@@ -63,5 +63,5 @@ for i, (_, x0, y0, x1, y1, n) in enumerate(boxes, 1):
     px = np.array(full); px[..., 3] = np.where(own[: px.shape[0], : px.shape[1]], px[..., 3], 0)
     c = Image.fromarray(px).crop((x0, y0, x1, y1))
     k = min(1, MAX_SIDE / max(c.size)); c = c.resize((round(c.width * k), round(c.height * k)), Image.LANCZOS)
-    c.save(f'src/assets/clouds/cloud-{i}.webp', 'WEBP', quality=90, method=6)
+    c.save(f'src/events/engagement/assets/clouds/cloud-{i}.webp', 'WEBP', quality=90, method=6)
     print(f'cloud-{i}', c.size)

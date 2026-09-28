@@ -3,8 +3,8 @@ import archBottom from '../assets/frame/arch-bottom.webp'
 import archMid from '../assets/frame/arch-mid.webp'
 import archTop from '../assets/frame/arch-top.webp'
 import closingCard from '../assets/frame/closing.webp'
-import { invite } from '../content'
-import { useLang, type Pair } from '../lib/lang'
+import { invite } from '../invite'
+import { useLang, type Pair } from '../../../lib/lang'
 import { Band, Cloud, Divider } from './Ornaments'
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {

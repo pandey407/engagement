@@ -1,6 +1,6 @@
 // Event registry and routing: /<event>[/<side>] → the invite text for that event and side.
 // Pure data (no browser APIs), so the build (vite.config.ts) and scripts can use it too.
-import { engagement } from './engagement.ts'
+import { engagement } from './engagement/content.ts'
 
 export const events = [engagement]
 export type Event = (typeof events)[number]

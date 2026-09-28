@@ -1,0 +1,108 @@
+/* The shared opening envelope (src/envelope): maroon damask flaps, Ganesh drawing, gold seam, lotus wax seal. */
+
+/* Flaps: the damask paper (--paper) is sized to the whole screen so its pattern runs continuously across the
+   seam; the lower flap is shaded a little deeper. */
+.envelope-flap,
+.envelope-flap-lower {
+  --cover: max(100vw, 100svh);
+}
+.envelope-flap {
+  background: var(--paper) center top / var(--cover) var(--cover) no-repeat, var(--color-maroon);
+}
+.envelope-flap-lower {
+  background:
+    linear-gradient(rgb(40 4 12 / 0.22), rgb(40 4 12 / 0.22)),
+    var(--paper) center bottom / var(--cover) var(--cover) no-repeat,
+    var(--color-maroon-deep);
+}
+
+/* Envelope seal: gold rings (traced to the seal's wavy edge) ripple out once it is ready. */
+@keyframes seal-ripple {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  60%, 100% { transform: scale(1.6); opacity: 0; }
+}
+.seal-ripple {
+  fill: none;
+  stroke: var(--color-gold-light);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+/* The ripple's SVG layer is scaled as a whole (rasterised once, then composited on the GPU). */
+.seal-ripple-layer {
+  filter: drop-shadow(0 0 6px rgb(221 175 122 / 0.55));
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: seal-ripple 4s ease-out infinite;
+}
+
+/* Envelope Ganesh: each stroke's outline draws on, then the drawing fills; the diya flame flickers. */
+.ganesh-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ganesh-draw 0.9s ease-in-out forwards;
+}
+@keyframes ganesh-draw {
+  to { stroke-dashoffset: 0; }
+}
+.ganesh-fill,
+.ganesh-flame-fill {
+  opacity: 0;
+  animation: ganesh-fill 0.9s ease forwards;
+}
+.ganesh-fill { fill: currentColor; }
+@keyframes ganesh-fill {
+  to { opacity: 1; }
+}
+.ganesh-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  /* Static glow (a filter is rasterised once); only the transform animates, which stays on the GPU. */
+  filter: drop-shadow(0 0 6px rgb(255 170 60 / 0.75));
+  will-change: transform;
+  animation: flame-flicker 1.7s ease-in-out infinite;
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  20% { transform: scale(0.93, 1.07) skewX(-3deg); }
+  40% { transform: scale(1.04, 0.95) skewX(2deg); }
+  60% { transform: scale(0.96, 1.09) skewX(-1.5deg); }
+  80% { transform: scale(1.02, 0.97) skewX(2.5deg); }
+}
+
+/* Envelope sequence: the seam line scratches across, the seal drops in, then pulses to invite a tap. */
+.seam-line {
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgb(221 175 122 / 0.8);
+}
+.seam-line-drawn {
+  animation: seam-scratch 0.9s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+}
+@keyframes seam-scratch {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.seal-enter {
+  animation: seal-enter 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes seal-enter {
+  from { opacity: 0; scale: 0.3; rotate: -25deg; }
+  to { opacity: 1; scale: 1; rotate: 0deg; }
+}
+.seal-bounce {
+  will-change: transform;
+  animation: seal-pulse 2.4s ease-in-out infinite;
+}
+@keyframes seal-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seal-bounce, .ganesh-flame { animation: none; }
+  .seam-line { transform: none; }
+  .seal-ripple { display: none; }
+}

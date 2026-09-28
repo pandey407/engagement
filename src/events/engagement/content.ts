@@ -11,6 +11,9 @@
 export const engagement = {
   slug: 'engagement', // the URL path: /engagement
   siteUrl: 'https://invite.ashleshpandey.com.np/',
+  // Google Fonts for this event's design (names: Parisienne + Laila; text: Cormorant Garamond + Noto Serif Devanagari)
+  fonts:
+    'https://fonts.googleapis.com/css2?family=Parisienne&family=Laila:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap',
 
   // ── Who is inviting: name order and closing line per side ───────────────────────────
   couple: {

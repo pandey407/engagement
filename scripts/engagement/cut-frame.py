@@ -1,11 +1,11 @@
-# Cuts the arched lotus frame (design/frame-arch-hires.jpeg, our generated art) off its grey backdrop.
+# Cuts the arched lotus frame (design/engagement/frame-arch-hires.jpeg, our generated art) off its grey backdrop.
 # The card is a clean shape (straight sides, flat bottom, scalloped arch), so we measure that outline
 # and draw a smooth anti-aliased mask instead of following noisy shadow pixels.
-# Output: src/assets/frame/arch-{top,mid,bottom}.webp (transparent, native resolution).
+# Output: src/events/engagement/assets/frame/arch-{top,mid,bottom}.webp (transparent, native resolution).
 from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
-SRC, SS = 'design/frame-arch-hires.jpeg', 4
+SRC, SS = 'design/engagement/frame-arch-hires.jpeg', 4
 im = Image.open(SRC).convert('RGB')
 F = im.width / 1116  # measurements below were taken on the 1116 px wide version
 b = np.asarray(im.filter(ImageFilter.GaussianBlur(2 * F))).astype(float)
@@ -56,7 +56,7 @@ def feather(img, edge):
     if edge == 'bottom': a[-FEATHER:] *= ramp[::-1]
     else: a[:FEATHER] *= ramp
     img = img.copy(); img.putalpha(Image.fromarray(a.astype(np.uint8))); return img
-feather(out.crop((0, 0, w, TOP)), 'bottom').save('src/assets/frame/arch-top.webp', 'WEBP', quality=92, method=6)
-feather(out.crop((0, BOT, w, h)), 'top').save('src/assets/frame/arch-bottom.webp', 'WEBP', quality=92, method=6)
-out.crop((0, MID[0], w, MID[1])).save('src/assets/frame/arch-mid.webp', 'WEBP', quality=92, method=6)
+feather(out.crop((0, 0, w, TOP)), 'bottom').save('src/events/engagement/assets/frame/arch-top.webp', 'WEBP', quality=92, method=6)
+feather(out.crop((0, BOT, w, h)), 'top').save('src/events/engagement/assets/frame/arch-bottom.webp', 'WEBP', quality=92, method=6)
+out.crop((0, MID[0], w, MID[1])).save('src/events/engagement/assets/frame/arch-mid.webp', 'WEBP', quality=92, method=6)
 print('slices', (w, TOP), (w, h - BOT), (w, MID[1] - MID[0]))

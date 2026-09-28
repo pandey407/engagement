@@ -1,4 +1,4 @@
-import { invite } from '../content'
+import { invite } from './invite'
 
 // Google Fonts splits each family into per-script files (Latin, Devanagari…) and a browser only downloads a
 // file when a character first needs it — so switching language could flash a fallback font. While the

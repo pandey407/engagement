@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+/* The shared envelope, then each event's own styles (add new events here). */
+@import './envelope/envelope.css';
+@import './events/engagement/theme.css';
 
 @theme {
   /* Palette sampled from the theme sheet swatches. */
@@ -44,164 +47,10 @@ body {
     var(--color-cream);
 }
 
-/* Envelope flaps: our pink lotus damask (src/assets/envelope/pink-tile.webp, set as --paper), one seamless tile
-   repeated under a soft cream wash so the maroon text reads clearly; the lower flap is shaded a touch deeper. */
-.envelope-flap {
-  background:
-    linear-gradient(rgb(250 244 234 / 0.45), rgb(250 244 234 / 0.45)),
-    var(--paper) center top / 200px 200px repeat,
-    var(--color-paper);
-}
-.envelope-flap-lower {
-  background:
-    linear-gradient(rgb(250 244 234 / 0.3), rgb(250 244 234 / 0.3)),
-    linear-gradient(rgb(119 20 42 / 0.06), rgb(119 20 42 / 0.06)),
-    var(--paper) center top / 200px 200px repeat,
-    var(--color-paper);
-}
-
-.ornament {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.ornament::before,
-.ornament::after {
-  content: '';
-  height: 1px;
-  width: 3rem;
-  background: var(--color-gold);
-}
-
-/* Arched lotus card built from three slices of src/assets/frame (890 px wide source):
-   the arch top (520px) and lotus foot (567px) keep their shape; the plain paper band between them
-   stretches to fit the text. Top/foot have feathered edges that blend over the band, so there is no seam.
-   --s scales source pixels to the rendered width. */
-.arch-card {
-  --s: calc(var(--w) / 890);
-  background:
-    var(--top) top / 100% auto no-repeat,
-    var(--bottom) bottom / 100% auto no-repeat,
-    var(--mid) 0 calc(484 * var(--s)) / 100% calc(100% - 1001 * var(--s)) no-repeat; /* 484 = mid start, 1001 = 484 + (1597 - 1080) */
-  filter: drop-shadow(0 18px 30px rgb(119 20 42 / 0.12));
-}
-
-/* Envelope seal: gold rings (traced to the seal's wavy edge) ripple out once it is ready. */
-@keyframes seal-ripple {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  60%, 100% { transform: scale(1.6); opacity: 0; }
-}
-.seal-ripple {
-  fill: none;
-  stroke: var(--color-gold);
-  stroke-width: 2px;
-  vector-effect: non-scaling-stroke;
-}
-/* The ripple's SVG layer is scaled as a whole (rasterised once, then composited on the GPU). */
-.seal-ripple-layer {
-  filter: drop-shadow(0 0 6px rgb(168 122 58 / 0.45));
-  transform-origin: center;
-  will-change: transform, opacity;
-  animation: seal-ripple 4s ease-out infinite;
-}
-
-/* Envelope Ganesh: each stroke's outline draws on, then the drawing fills; the diya flame flickers. */
-.ganesh-stroke {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.2px;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: ganesh-draw 0.9s ease-in-out forwards;
-}
-@keyframes ganesh-draw {
-  to { stroke-dashoffset: 0; }
-}
-.ganesh-fill,
-.ganesh-flame-fill {
-  opacity: 0;
-  animation: ganesh-fill 0.9s ease forwards;
-}
-.ganesh-fill { fill: currentColor; }
-@keyframes ganesh-fill {
-  to { opacity: 1; }
-}
-.ganesh-flame {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  /* Static glow (a filter is rasterised once); only the transform animates, which stays on the GPU. */
-  filter: drop-shadow(0 0 6px rgb(255 170 60 / 0.75));
-  will-change: transform;
-  animation: flame-flicker 1.7s ease-in-out infinite;
-}
-@keyframes flame-flicker {
-  0%, 100% { transform: scale(1, 1) skewX(0deg); }
-  20% { transform: scale(0.93, 1.07) skewX(-3deg); }
-  40% { transform: scale(1.04, 0.95) skewX(2deg); }
-  60% { transform: scale(0.96, 1.09) skewX(-1.5deg); }
-  80% { transform: scale(1.02, 0.97) skewX(2.5deg); }
-}
-
-/* Envelope sequence: the seam line scratches across, the seal drops in, then pulses to invite a tap. */
-.seam-line {
-  transform: scaleX(0);
-  box-shadow: 0 0 8px rgb(168 122 58 / 0.6);
-}
-.seam-line-drawn {
-  animation: seam-scratch 0.9s cubic-bezier(0.6, 0, 0.2, 1) forwards;
-}
-@keyframes seam-scratch {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.seal-enter {
-  animation: seal-enter 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-@keyframes seal-enter {
-  from { opacity: 0; scale: 0.3; rotate: -25deg; }
-  to { opacity: 1; scale: 1; rotate: 0deg; }
-}
-.seal-bounce {
-  will-change: transform;
-  animation: seal-pulse 2.4s ease-in-out infinite;
-}
-@keyframes seal-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .seal-bounce, .ganesh-flame { animation: none; }
-  .seam-line { transform: none; }
-  .seal-ripple { display: none; }
-}
-
 /* Scroll-reveal elements start hidden (GSAP fades them up, see lib/motion.ts), so the page never flashes
    fully-formed before its animation. Skipped for reduced motion, where nothing animates. */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] { opacity: 0; }
-}
-
-@keyframes drift {
-  from { transform: translateX(-4%); }
-  to { transform: translateX(4%); }
-}
-.drift {
-  animation: drift 14s ease-in-out infinite alternate;
-}
-
-@keyframes sway {
-  from {
-    transform: rotate(-4deg);
-  }
-  to {
-    transform: rotate(4deg);
-  }
-}
-.sway {
-  transform-origin: top center;
-  animation: sway 3s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import paperUrl from '../assets/envelope/pink-tile.webp'
-import sealOutline from '../assets/seal/outline.svg?raw'
-import { invite } from '../content'
 import { gsap, prefersReducedMotion } from '../lib/motion'
+import paperUrl from './assets/paper.webp'
+import sealOutline from './assets/seal-outline.svg?raw'
+import sealUrl from './assets/seal.webp'
 import { DustText } from './DustText'
 import { GaneshDraw } from './GaneshDraw'
-import { Seal } from './Ornaments'
 
 const outlinePath = sealOutline.match(/ d="([^"]+)"/)?.[1] ?? ''
 const outlineView = sealOutline.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 100 100'
@@ -25,8 +24,17 @@ const at = (phase: Phase, from: Phase) => {
   return order.indexOf(phase) >= order.indexOf(from)
 }
 
-// Full-screen "envelope" the guest taps to open the invite.
-export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart?: () => void }) {
+// The opening envelope, shared by every event: maroon damask paper, Ganesh drawing himself, the shloka forming
+// from gold dust, a gold seam, and a lotus wax seal the guest taps to open. Each event passes its own text.
+type Props = {
+  shloka: readonly string[]
+  invocation: string
+  openLabel: string // read out by screen readers for the seal button
+  onOpen: () => void // the envelope has fully opened
+  onOpenStart?: () => void // the envelope has started to open (the invite can begin animating in)
+}
+
+export function Envelope({ shloka, invocation, openLabel, onOpen, onOpenStart }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const top = useRef<HTMLDivElement>(null)
   const bottom = useRef<HTMLDivElement>(null)
@@ -59,28 +67,28 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
       <div ref={top} className="envelope-flap absolute inset-x-0 top-0 h-1/2" />
       <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2" />
 
-      <div ref={content} className="text-maroon">
+      <div ref={content} className="text-cream">
         {/* Top flap: Ganesh draws himself. */}
         <div className="absolute inset-x-0 top-0 flex h-1/2 items-center justify-center pb-[min(19vw,5rem)]">
-          <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-maroon drop-shadow-[0_4px_12px_rgb(119_20_42/0.18)]" />
+          <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
         </div>
 
         {/* Bottom flap: the shloka forms from gold dust, then the invocation. */}
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-5 px-5 pt-[min(19vw,5rem)] text-center">
           <DustText
-            lines={invite.shloka}
-            className="font-display text-[min(5.3vw,1.25rem)] leading-relaxed text-maroon sm:text-3xl"
+            lines={shloka}
+            className="font-display text-[min(5.3vw,1.25rem)] leading-relaxed text-gold-light sm:text-3xl"
             onDone={() => setPhase((p) => (p === 'writing' ? 'invocation' : p))}
           />
-          <p className={`font-display text-xl text-gold transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
-            {invite.invocation}
+          <p className={`font-display text-xl text-gold-light transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
+            {invocation}
           </p>
         </div>
 
         {/* The seam: a gold line scratches across the envelope before the seal is placed. */}
         <div
           aria-hidden
-          className={`seam-line absolute inset-x-0 top-1/2 h-px origin-left bg-gold ${at(phase, 'scratch') ? 'seam-line-drawn' : ''}`}
+          className={`seam-line absolute inset-x-0 top-1/2 h-px origin-left bg-gold-light/80 ${at(phase, 'scratch') ? 'seam-line-drawn' : ''}`}
         />
       </div>
 
@@ -88,8 +96,8 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
         ref={seal}
         onClick={open}
         disabled={phase !== 'ready'}
-        aria-label={invite.openLabel}
-        className={`absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(119_20_42/0.3)] ${
+        aria-label={openLabel}
+        className={`absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] ${
           phase === 'ready' ? 'cursor-pointer' : 'pointer-events-none'
         } ${at(phase, 'seal') ? 'seal-enter' : 'opacity-0'}`}
       >
@@ -99,7 +107,7 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
             <path className="seal-ripple" d={outlinePath} />
           </svg>
         )}
-        <Seal className={`relative w-full ${phase === 'ready' ? 'seal-bounce' : ''}`} />
+        <img src={sealUrl} alt="" draggable={false} className={`relative w-full select-none ${phase === 'ready' ? 'seal-bounce' : ''}`} />
       </button>
     </div>
   )

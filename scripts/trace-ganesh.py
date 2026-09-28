@@ -1,10 +1,10 @@
-# Traces design/ganesh.jpg (black line art) into src/assets/ganesh.svg using potracer.
+# Traces design/envelope/ganesh.jpg (black line art) into src/envelope/assets/ganesh.svg using potracer.
 # The SVG uses fill="currentColor" so CSS text colour sets it (maroon, gold...).
 from PIL import Image, ImageFilter
 import numpy as np
 import potrace
 
-SRC, OUT, SCALE = 'design/ganesh.jpg', 'src/assets/ganesh.svg', 4
+SRC, OUT, SCALE = 'design/envelope/ganesh.jpg', 'src/envelope/assets/ganesh.svg', 4
 
 g = Image.open(SRC).convert('L')
 bbox = g.point(lambda v: 255 if v < 128 else 0).getbbox()

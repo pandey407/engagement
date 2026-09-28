@@ -10,14 +10,15 @@ const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').r
 
 function fill(html: string, path: string) {
   const m = fromPath(path.split('?')[0])
-  if (!m) return html.replace(/%[A-Z_]+%/g, '')
-  const { meta } = resolve(m.event, m.side)
+  if (!m) return html.replace(/<link href="%FONTS%"[^>]*>/, '').replace(/%[A-Z_]+%/g, '')
+  const { meta, fonts } = resolve(m.event, m.side)
   const values: Record<string, string> = {
     TITLE: meta.title,
     PREVIEW_TITLE: meta.previewTitle,
     DESCRIPTION: meta.description,
     URL: meta.url,
     IMAGE: meta.image,
+    FONTS: fonts,
   }
   return html.replace(/%([A-Z_]+)%/g, (all, key: string) => (key in values ? escape(values[key]) : all))
 }

@@ -3,7 +3,6 @@ import cloud2 from '../assets/clouds/cloud-2.webp'
 import cloud3 from '../assets/clouds/cloud-3.webp'
 import borderTile from '../assets/border/tile.webp'
 import dividerUrl from '../assets/divider/divider.webp'
-import sealUrl from '../assets/seal/seal.webp'
 
 // Painted lotus divider with gold vines (our generated art, cut out by scripts/cut-divider.py).
 export function Divider({ className = '' }: { className?: string }) {
@@ -21,11 +20,6 @@ export function Divider({ className = '' }: { className?: string }) {
 // Painted lotus border strip (our generated art): one seamless repeat, tiled across the width.
 export function Band() {
   return <div className="h-11 sm:h-14" style={{ background: `url(${borderTile}) repeat-x left center / auto 100%` }} />
-}
-
-// Painted lotus wax seal (our generated art, cut out by scripts/cut-seal.py).
-export function Seal({ className = '' }: { className?: string }) {
-  return <img src={sealUrl} alt="" draggable={false} className={`select-none ${className}`} />
 }
 
 // Watercolour auspicious clouds with gold curls (our generated art, cut out by scripts/cut-clouds.py).

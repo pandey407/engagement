@@ -1,0 +1,48 @@
+/* Engagement invite: this event's own styles (the envelope is shared, see src/envelope/envelope.css). */
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  height: 1px;
+  width: 3rem;
+  background: var(--color-gold);
+}
+
+/* Arched lotus card built from three slices of src/assets/frame (890 px wide source):
+   the arch top (520px) and lotus foot (567px) keep their shape; the plain paper band between them
+   stretches to fit the text. Top/foot have feathered edges that blend over the band, so there is no seam.
+   --s scales source pixels to the rendered width. */
+.arch-card {
+  --s: calc(var(--w) / 890);
+  background:
+    var(--top) top / 100% auto no-repeat,
+    var(--bottom) bottom / 100% auto no-repeat,
+    var(--mid) 0 calc(484 * var(--s)) / 100% calc(100% - 1001 * var(--s)) no-repeat; /* 484 = mid start, 1001 = 484 + (1597 - 1080) */
+  filter: drop-shadow(0 18px 30px rgb(119 20 42 / 0.12));
+}
+
+@keyframes drift {
+  from { transform: translateX(-4%); }
+  to { transform: translateX(4%); }
+}
+.drift {
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+.sway {
+  transform-origin: top center;
+  animation: sway 3s ease-in-out infinite alternate;
+}
