@@ -53,3 +53,4 @@ Every push to `main` builds and deploys via `.github/workflows/deploy.yml`.
 - `src/assets/seal/outline.svg`: the seal's wavy edge traced to vector (`scripts/trace-seal-outline.py`), used for the ripple rings.
 - `src/assets/envelope/pink-tile.webp`: one seamless repeat of our generated pink lotus damask (`design/envelope-pink.jpeg`), cut by `scripts/cut-envelope-tile.py`.
 - `src/assets/frame/closing.webp`: our generated wide pink closing card (`design/frame-closing.jpeg`), cut out by `scripts/cut-seal.py design/frame-closing.jpeg src/assets/frame/closing.webp 5`.
+- `src/assets/seal/seal.webp`: our generated pink lotus wax seal (`design/seal-pink.jpeg`), cut out by `scripts/cut-seal.py`.
