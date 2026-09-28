@@ -1,16 +1,20 @@
 # Cuts the lotus wax seal (design/seal.jpg, our generated art) off its plain grey background.
 # Output: src/assets/seal/seal.webp (transparent, native resolution).
+# Usage: python3 scripts/cut-seal.py [SRC] [OUT] [WARM]  (also cuts the pale closing card: WARM 5)
 from PIL import Image, ImageFilter
 import numpy as np
 
-SRC, OUT = 'design/seal.jpg', 'src/assets/seal/seal.webp'
+import sys
+SRC = sys.argv[1] if len(sys.argv) > 1 else 'design/seal-pink.jpeg'
+OUT = sys.argv[2] if len(sys.argv) > 2 else 'src/assets/seal/seal.webp'
+WARM = float(sys.argv[3]) if len(sys.argv) > 3 else 10  # R-G above which a pixel is artwork, not grey backdrop
 im = Image.open(SRC).convert('RGB')
 a = np.asarray(im).astype(np.float32)
 bg = np.median(np.concatenate([a[:40].reshape(-1, 3), a[-40:].reshape(-1, 3)]), axis=0)
 
-# Wax is strongly red (R well above G); the backdrop is neutral grey. Soft ramp gives anti-aliased edges.
+# Wax is red/pink (R well above G); the backdrop is neutral grey. Soft ramp gives anti-aliased edges.
 warm = a[..., 0] - a[..., 1]
-alpha = np.clip((warm - 10) / 22, 0, 1)
+alpha = np.clip((warm - WARM) / 12, 0, 1)
 # Fill the inside solid (gold/pink/green details are not "red" but are fully inside the seal).
 solid = Image.fromarray((alpha > 0.5).astype(np.uint8) * 255)
 solid = solid.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.MinFilter(9))  # close small gaps

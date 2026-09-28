@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import paperUrl from '../assets/envelope/paper.webp'
+import paperUrl from '../assets/envelope/pink-tile.webp'
 import sealOutline from '../assets/seal/outline.svg?raw'
 import { invite } from '../content'
 import { gsap, prefersReducedMotion } from '../lib/motion'
@@ -59,20 +59,20 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
       <div ref={top} className="envelope-flap absolute inset-x-0 top-0 h-1/2" />
       <div ref={bottom} className="envelope-flap-lower absolute inset-x-0 bottom-0 h-1/2" />
 
-      <div ref={content} className="text-cream">
+      <div ref={content} className="text-maroon">
         {/* Top flap: Ganesh draws himself. */}
         <div className="absolute inset-x-0 top-0 flex h-1/2 items-center justify-center pb-[min(19vw,5rem)]">
-          <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-gold-light drop-shadow-[0_6px_18px_rgb(0_0_0/0.35)]" />
+          <GaneshDraw className="w-[min(40vw,11rem,22svh)] text-maroon drop-shadow-[0_4px_12px_rgb(119_20_42/0.18)]" />
         </div>
 
         {/* Bottom flap: the shloka forms from gold dust, then the invocation. */}
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 flex-col items-center justify-center gap-5 px-5 pt-[min(19vw,5rem)] text-center">
           <DustText
             lines={invite.shloka}
-            className="font-display text-[min(5.3vw,1.25rem)] leading-relaxed text-gold-light sm:text-3xl"
+            className="font-display text-[min(5.3vw,1.25rem)] leading-relaxed text-maroon sm:text-3xl"
             onDone={() => setPhase((p) => (p === 'writing' ? 'invocation' : p))}
           />
-          <p className={`font-display text-xl text-gold-light transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
+          <p className={`font-display text-xl text-gold transition-all duration-1000 sm:text-2xl ${at(phase, 'invocation') ? 'opacity-100 blur-0' : 'translate-y-2 opacity-0 blur-sm'}`}>
             {invite.invocation}
           </p>
         </div>
@@ -80,7 +80,7 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
         {/* The seam: a gold line scratches across the envelope before the seal is placed. */}
         <div
           aria-hidden
-          className={`seam-line absolute inset-x-0 top-1/2 h-px origin-left bg-gold-light/80 ${at(phase, 'scratch') ? 'seam-line-drawn' : ''}`}
+          className={`seam-line absolute inset-x-0 top-1/2 h-px origin-left bg-gold ${at(phase, 'scratch') ? 'seam-line-drawn' : ''}`}
         />
       </div>
 
@@ -89,7 +89,7 @@ export function Intro({ onOpen, onOpenStart }: { onOpen: () => void; onOpenStart
         onClick={open}
         disabled={phase !== 'ready'}
         aria-label={invite.openLabel}
-        className={`absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(0_0_0/0.5)] ${
+        className={`absolute top-1/2 left-1/2 w-[min(38vw,10rem)] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_10px_16px_rgb(119_20_42/0.3)] ${
           phase === 'ready' ? 'cursor-pointer' : 'pointer-events-none'
         } ${at(phase, 'seal') ? 'seal-enter' : 'opacity-0'}`}
       >

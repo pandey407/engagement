@@ -44,20 +44,20 @@ body {
     var(--color-cream);
 }
 
-/* Envelope flaps: our maroon damask paper (src/assets/envelope/paper.webp, set as --paper), sized to the
-   whole screen so the pattern runs continuously across the seam; the lower flap is shaded a little deeper. */
-.envelope-flap,
-.envelope-flap-lower {
-  --cover: max(100vw, 100svh);
-}
+/* Envelope flaps: our pink lotus damask (src/assets/envelope/pink-tile.webp, set as --paper), one seamless tile
+   repeated under a soft cream wash so the maroon text reads clearly; the lower flap is shaded a touch deeper. */
 .envelope-flap {
-  background: var(--paper) center top / var(--cover) var(--cover) no-repeat, var(--color-maroon);
+  background:
+    linear-gradient(rgb(250 244 234 / 0.45), rgb(250 244 234 / 0.45)),
+    var(--paper) center top / 200px 200px repeat,
+    var(--color-paper);
 }
 .envelope-flap-lower {
   background:
-    linear-gradient(rgb(40 4 12 / 0.22), rgb(40 4 12 / 0.22)),
-    var(--paper) center bottom / var(--cover) var(--cover) no-repeat,
-    var(--color-maroon-deep);
+    linear-gradient(rgb(250 244 234 / 0.3), rgb(250 244 234 / 0.3)),
+    linear-gradient(rgb(119 20 42 / 0.06), rgb(119 20 42 / 0.06)),
+    var(--paper) center top / 200px 200px repeat,
+    var(--color-paper);
 }
 
 .ornament {
@@ -86,16 +86,6 @@ body {
   filter: drop-shadow(0 18px 30px rgb(119 20 42 / 0.12));
 }
 
-/* Maroon arched card (src/assets/frame/maroon-*.webp, 574 x 880 source), same 3-slice idea as .arch-card. */
-.maroon-card {
-  --s: calc(var(--w) / 574);
-  background:
-    var(--top) top / 100% auto no-repeat,
-    var(--bottom) bottom / 100% auto no-repeat,
-    var(--mid) 0 calc(352 * var(--s)) / 100% calc(100% - 740 * var(--s)) no-repeat;
-  filter: drop-shadow(0 18px 30px rgb(74 10 24 / 0.25));
-}
-
 /* Envelope seal: gold rings (traced to the seal's wavy edge) ripple out once it is ready. */
 @keyframes seal-ripple {
   0% { transform: scale(0.95); opacity: 0.8; }
@@ -103,13 +93,13 @@ body {
 }
 .seal-ripple {
   fill: none;
-  stroke: var(--color-gold-light);
+  stroke: var(--color-gold);
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
 }
 /* The ripple's SVG layer is scaled as a whole (rasterised once, then composited on the GPU). */
 .seal-ripple-layer {
-  filter: drop-shadow(0 0 6px rgb(221 175 122 / 0.55));
+  filter: drop-shadow(0 0 6px rgb(168 122 58 / 0.45));
   transform-origin: center;
   will-change: transform, opacity;
   animation: seal-ripple 4s ease-out infinite;
@@ -156,7 +146,7 @@ body {
 /* Envelope sequence: the seam line scratches across, the seal drops in, then pulses to invite a tap. */
 .seam-line {
   transform: scaleX(0);
-  box-shadow: 0 0 8px rgb(221 175 122 / 0.8);
+  box-shadow: 0 0 8px rgb(168 122 58 / 0.6);
 }
 .seam-line-drawn {
   animation: seam-scratch 0.9s cubic-bezier(0.6, 0, 0.2, 1) forwards;

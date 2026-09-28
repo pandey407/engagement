@@ -1,43 +1,53 @@
-// Makes the WhatsApp / Messenger link-preview image (public/thumbnail.jpg, 1200x630 (JPEG: WhatsApp skips large images)) from src/content.ts,
-// drawn on a canvas with our art and fonts (the browser shapes the Devanagari correctly).
+// Makes the WhatsApp / Messenger link-preview images, one per event/side link (public/previews/<event>-<side>.jpg,
+// 1200x630 JPEG: WhatsApp skips large images), from src/events, drawn on a canvas with our art and fonts
+// (the browser shapes the Devanagari correctly).
 //   1. node scripts/make-preview.mjs           -> writes preview/index.html (dev-only page, git-ignored)
-//   2. python3 scripts/save-preview.py &      -> tiny receiver on :8765 that writes public/thumbnail.png
-//   3. npm run dev, open http://localhost:5173/preview/  (the page draws the image and sends it)
-// Re-run after changing the names, occasion or date in src/content.ts.
+//   2. python3 scripts/save-preview.py &      -> tiny receiver on :8765 that writes public/previews/*.jpg
+//   3. npm run dev, open http://localhost:5173/preview/  (the page draws every image and sends them)
+// Re-run after changing names, occasion or date in src/events/<event>.ts.
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
-import { invite } from '../src/content.ts'
+import { join, resolve as resolvePath } from 'node:path'
+import { resolve, routes } from '../src/events/index.ts'
 
-const root = resolve(import.meta.dirname, '..')
-const text = {
-  occasion: invite.occasion.np, occasionEn: invite.occasion.en.toUpperCase(),
-  one: invite.partnerOne.np, two: invite.partnerTwo.np, and: invite.and.np,
-  namesEn: `${invite.partnerOne.en} ${invite.and.en} ${invite.partnerTwo.en}`.toUpperCase(),
-  date: invite.dateLabel.np, dateEn: invite.dateLabel.en.toUpperCase(),
-}
+const root = resolvePath(import.meta.dirname, '..')
+const variants = routes().map((r) => {
+  const invite = resolve(r.event, r.side)
+  return {
+    name: `${r.event}-${r.side}`,
+    T: {
+      occasion: invite.occasion.np, occasionEn: invite.occasion.en.toUpperCase(),
+      one: invite.partnerOne.np, two: invite.partnerTwo.np, and: invite.and.np,
+      namesEn: `${invite.partnerOne.en} ${invite.and.en} ${invite.partnerTwo.en}`.toUpperCase(),
+      date: invite.dateLabel.np, dateEn: invite.dateLabel.en.toUpperCase(),
+    },
+  }
+})
 
 const html = `<!doctype html><html lang="ne"><head><meta charset="utf-8"><title>preview</title>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Laila:wght@400;600&family=Cormorant+Garamond:wght@500;600&family=Tiro+Devanagari+Sanskrit&family=Noto+Serif+Devanagari:wght@600&display=block" rel="stylesheet">
 <style>body{margin:0;background:#222;color:#eee;font:14px system-ui}canvas{display:block}</style></head><body>
 <canvas id="c" width="1200" height="630"></canvas><p id="status">drawing…</p>
 <script type="module">
-const T = ${JSON.stringify(text)}
+const VARIANTS = ${JSON.stringify(variants)}
+const ALL = VARIANTS.map((v) => Object.values(v.T).join(' ')).join(' ')
 const A = (p) => '/src/assets/' + p
 const load = (src) => new Promise((ok, err) => { const i = new Image(); i.onload = () => ok(i); i.onerror = err; i.src = src })
 const NAMES = "'Parisienne', 'Laila'"
 const DISPLAY = "'Cormorant Garamond', 'Tiro Devanagari Sanskrit'", BODY = "'Cormorant Garamond', 'Noto Serif Devanagari'"
 await Promise.all([
-  document.fonts.load("48px 'Tiro Devanagari Sanskrit'", T.occasion),
-  document.fonts.load("600 48px 'Laila'", T.one + T.two + T.and),
-  document.fonts.load("48px 'Parisienne'", T.namesEn),
-  document.fonts.load("600 30px 'Noto Serif Devanagari'", T.date),
+  document.fonts.load("48px 'Tiro Devanagari Sanskrit'", ALL),
+  document.fonts.load("600 48px 'Laila'", ALL),
+  document.fonts.load("48px 'Parisienne'", ALL),
+  document.fonts.load("600 30px 'Noto Serif Devanagari'", ALL),
   document.fonts.load("500 14px 'Cormorant Garamond'", 'A'),
 ])
 const [tile, top, mid, bot, c1, c2, c3] = await Promise.all(
   ['border/tile.webp', 'frame/arch-top.webp', 'frame/arch-mid.webp', 'frame/arch-bottom.webp',
    'clouds/cloud-1.webp', 'clouds/cloud-2.webp', 'clouds/cloud-3.webp'].map((p) => load(A(p))))
 const cv = document.getElementById('c'), g = cv.getContext('2d')
-g.fillStyle = '#faf4ea'; g.fillRect(0, 0, 1200, 630)
+const sent = []
+for (const { name, T } of VARIANTS) {
+g.reset(); g.fillStyle = '#faf4ea'; g.fillRect(0, 0, 1200, 630)
 
 // Border strips (tile scaled to 46px tall), top and bottom.
 const bh = 46, bw = tile.width * bh / tile.height
@@ -72,8 +82,11 @@ say(T.dateEn, 1005, 330, '500 14px ' + BODY, '#a87a3a', 2)
 
 // Send the exact pixels to scripts/save-preview.py.
 const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.88))
-const res = await fetch('http://localhost:8765/', { method: 'POST', body: blob }).catch(() => null)
-document.getElementById('status').textContent = res?.ok ? 'saved public/thumbnail.jpg' : 'drawn (receiver not running: start scripts/save-preview.py)'
+const res = await fetch('http://localhost:8765/' + name, { method: 'POST', body: blob }).catch(() => null)
+sent.push(name + (res?.ok ? ' ✓' : ' ✗'))
+}
+await fetch('http://localhost:8765/done', { method: 'POST', body: '' }).catch(() => null)
+document.getElementById('status').textContent = 'previews: ' + sent.join(', ')
 </script></body></html>`
 
 mkdirSync(join(root, 'preview'), { recursive: true })

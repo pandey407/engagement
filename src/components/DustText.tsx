@@ -6,7 +6,7 @@ import { prefersReducedMotion } from '../lib/motion'
 // scattered cloud to its exact spot, and the assembled canvas text stays as the final display (no hand-over,
 // so nothing shifts). The real text stays in the page, invisible, for layout and screen readers.
 type Props = {
-  lines: string[]
+  lines: readonly string[]
   className?: string
   lineClassName?: string
   start?: number // seconds before the dust starts moving

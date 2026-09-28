@@ -2,9 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import archBottom from '../assets/frame/arch-bottom.webp'
 import archMid from '../assets/frame/arch-mid.webp'
 import archTop from '../assets/frame/arch-top.webp'
-import maroonBottom from '../assets/frame/maroon-bottom.webp'
-import maroonMid from '../assets/frame/maroon-mid.webp'
-import maroonTop from '../assets/frame/maroon-top.webp'
+import closingCard from '../assets/frame/closing.webp'
 import { invite } from '../content'
 import { useLang, type Pair } from '../lib/lang'
 import { Band, Cloud, Divider } from './Ornaments'
@@ -119,21 +117,15 @@ export function Closing() {
   const { t } = useLang()
   return (
     <footer className="relative overflow-hidden pt-16 text-center">
+      {/* Wide pink card (1739 x 1406): text sits in the plain area between the scalloped top and the lotus garland. */}
       <div
-        className="relative mx-auto mb-16 flex flex-col items-center px-[calc(var(--w)*0.12)] pt-[calc(var(--w)*0.5)] pb-[calc(var(--w)*0.72)] text-cream"
-        style={
-          {
-            '--w': 'min(88vw, 26rem)',
-            width: 'var(--w)',
-            '--top': `url(${maroonTop})`,
-            '--mid': `url(${maroonMid})`,
-            '--bottom': `url(${maroonBottom})`,
-          } as CSSProperties
-        }
+        className="relative mx-auto mb-16 aspect-[1739/1406] w-[min(94vw,34rem)] bg-contain bg-center bg-no-repeat drop-shadow-[0_18px_30px_rgb(119_20_42/0.12)]"
+        style={{ backgroundImage: `url(${closingCard})` }}
       >
-        <div className="maroon-card absolute inset-0 -z-10" />
-        <p data-reveal className="font-display text-lg leading-snug sm:text-2xl">{t(invite.closing)}</p>
-        <p data-reveal className="mt-5 font-display text-base text-gold-light sm:text-xl">{t(invite.familyLine)}</p>
+        <div className="absolute inset-x-[12%] top-[17%] bottom-[44%] flex flex-col items-center justify-center">
+          <p data-reveal className="font-display text-base leading-snug text-maroon sm:text-2xl">{t(invite.closing)}</p>
+          <p data-reveal className="mt-3 font-display text-sm text-gold sm:text-xl">{t(invite.familyLine)}</p>
+        </div>
       </div>
       <Band />
     </footer>
