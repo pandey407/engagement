@@ -19,6 +19,8 @@ const NEXT: Record<Phase, [Phase, number] | null> = {
   seal: ['ready', 700],
   ready: null,
 }
+// Once tappable, the seal pulses twice (2.4s each, see .seal-bounce) and then opens by itself.
+const AUTO_OPEN_MS = 5000
 const at = (phase: Phase, from: Phase) => {
   const order: Phase[] = ['writing', 'invocation', 'scratch', 'seal', 'ready']
   return order.indexOf(phase) >= order.indexOf(from)
@@ -41,6 +43,7 @@ export function Envelope({ shloka, invocation, openLabel, onOpen, onOpenStart }:
   const content = useRef<HTMLDivElement>(null)
   const seal = useRef<HTMLButtonElement>(null)
   const [phase, setPhase] = useState<Phase>(() => (prefersReducedMotion() ? 'ready' : 'writing'))
+  const opening = useRef(false)
 
   useEffect(() => {
     const next = NEXT[phase]
@@ -50,7 +53,8 @@ export function Envelope({ shloka, invocation, openLabel, onOpen, onOpenStart }:
   }, [phase])
 
   const open = () => {
-    if (phase !== 'ready') return
+    if (phase !== 'ready' || opening.current) return
+    opening.current = true
     onOpenStart?.()
     if (prefersReducedMotion()) return onOpen()
     gsap
@@ -61,6 +65,12 @@ export function Envelope({ shloka, invocation, openLabel, onOpen, onOpenStart }:
       .to(bottom.current, { yPercent: 100, duration: 1, ease: 'power3.inOut' }, '<')
       .to(root.current, { autoAlpha: 0, duration: 0.2 })
   }
+
+  useEffect(() => {
+    if (phase !== 'ready') return
+    const id = setTimeout(open, AUTO_OPEN_MS)
+    return () => clearTimeout(id)
+  }, [phase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div ref={root} className="fixed inset-0 z-50 overflow-hidden" style={{ '--paper': `url(${paperUrl})` } as CSSProperties}>
