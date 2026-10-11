@@ -51,7 +51,7 @@ export const engagement = {
   time: { np: 'दिउँसो २:३० बजे', en: '2:30 PM' },
   venue: {
     name: { np: 'साम्ये गार्डेन', en: 'Sam-Ye Garden' },
-    address: { np: 'डल्लु, काठमाडौं', en: 'Dallu, Kathmandu, Nepal' },
+    address: { np: 'बिजेश्वरी, स्वयम्भू मार्ग, काठमाडौं', en: 'Bijeswori, Swayambhu Marg, Kathmandu' },
     // Google Maps → Share → Embed a map → copy the src="..." URL
     mapEmbedUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1765.6!2d85.2977589!3d27.7131234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19002e68eaeb%3A0x676d0d6da78dc8e9!2sSam-Ye%20Garden%20Restaurant%20%26%20Bar!5e0!3m2!1sen!2snp!4v1791700000000!5m2!1sen!2snp',
