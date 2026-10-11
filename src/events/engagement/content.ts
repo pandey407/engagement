@@ -48,16 +48,16 @@ export const engagement = {
   },
   // Placeholder BS date: confirm against a patro before sharing. Also shown on the name card.
   dateLabel: { np: 'असोज २६, २०८३ सोमवार', en: 'Monday, 12 October 2026' },
-  time: { np: 'दिउँसो २:०० बजे', en: '2:00 PM' },
+  time: { np: 'दिउँसो २:३० बजे', en: '2:30 PM' },
   venue: {
-    name: { np: 'अक्वाकुनो', en: 'AquaKuno' },
-    address: { np: 'हात्तीगौंडा (खत्री गाउँ), काठमाडौं', en: 'Hattigauda (Khatri Gaun), Kathmandu, Nepal' },
+    name: { np: 'साम्ये गार्डेन', en: 'Sam-Ye Garden' },
+    address: { np: 'डल्लु, काठमाडौं', en: 'Dallu, Kathmandu, Nepal' },
     // Google Maps → Share → Embed a map → copy the src="..." URL
     mapEmbedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3530.6050939221896!2d85.3416597!3d27.760323999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1f3d03bd1a5d%3A0xbc19213e48bac64!2sAquaKuno!5e0!3m2!1sen!2snp!4v1790441284980!5m2!1sen!2snp',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1765.6!2d85.2977589!3d27.7131234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19002e68eaeb%3A0x676d0d6da78dc8e9!2sSam-Ye%20Garden%20Restaurant%20%26%20Bar!5e0!3m2!1sen!2snp!4v1791700000000!5m2!1sen!2snp',
     // Google Maps → Share → Copy link (tapping the venue name opens this)
-    mapLink: 'https://maps.google.com/?cid=847118819058756708', // AquaKuno's Google Maps place
-    mapTitle: 'Map to AquaKuno', // read out by screen readers
+    mapLink: 'https://maps.app.goo.gl/9g7QNnorh9Bazo6cA', // Sam-Ye Garden Restaurant & Bar on Google Maps
+    mapTitle: 'Map to Sam-Ye Garden', // read out by screen readers
   },
 
   // ── Closing card (the sign-off line comes from `sides` above) ─────────────────────
